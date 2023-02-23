@@ -44,8 +44,66 @@ void question_02(){
     cout << "The imperial conversion is " << distance_feet << "ft " << left_over_inches << " inches." << endl;
 }
 
+/*
+ * According to legend, the German mathematician Karl Friedrich Gauss (1777–1855)
+ * began to show his mathematical talent at a very early age. When he was in
+ * elementary school, Gauss was asked by his teacher to compute the sum of the
+ * numbers between 1 and 100. Gauss is said to have given the answer instantly: 5050.
+ * Write a program that computes the answer to the question Gauss’s teacher posed.
+ */
+void question_03(){
+    const int BOTTOM_END = 1;
+    const int TOP_END = 100;
+    int sum_of_range = 0;
+
+    for(int i = BOTTOM_END; i<= TOP_END; i++) {
+        sum_of_range += i;
+    };
+
+    cout << "The answer to question 3 is " << sum_of_range << '.';
+}
+
+/*
+ * Write a program that reads in a positive integer N and then calculates and displays
+ * the sum of the first N odd integers. For example, if N is 4, your program should
+ * display the value 16, which is 1 + 3 + 5 + 7.
+ */
+void question_04(){
+    int sum_odd_nums = 0;
+
+    cout << "Provide an interger to calculate odd sum from :";
+    int n = getInteger() * 2;
+
+    for(int i = 1; i <= n; i+=2){
+        sum_odd_nums += i;
+    }
+
+    cout << "The sum of the first " << n / 2 << " odd integers is " << sum_odd_nums << '.';
+}
+
+/*
+ * Write a program that reads in a list of integers from the user until the user enters the
+ * value 0 as a sentinel. When the sentinel appears, your program should display the
+ * largest value in the list, as illustrated in the following sample run
+ */
+void question_05(){
+    int input = 0;
+    int highest = -1;
+
+    cout << "Input as many integers as you'd like hitting enter after each one. When you are done, enter 0, and the program will stop and output the highest numer.";
+
+    do {
+        input = getInteger();
+
+        if (input > highest) highest = input;
+
+    } while (input);
+
+    cout << "The largest inputed integer was " << highest << '.';
+}
+
 int main() {
-    question_02();
+    question_05();
 
     return 0;
 }
