@@ -101,9 +101,166 @@ void question_05(){
 
     cout << "The largest inputed integer was " << highest << '.';
 }
+/*
+ * int DigitSum(int n) {
+ *      int sum;
+ *
+ *      sum = 0;
+ *      while (n > 0) {
+ *          sum += n % 10;
+ *          n /= 10;
+ *      }
+ *
+ *      return sum;
+ * }
+*/
+
+/*
+ * Using the DigitSum function from the section entitled “The while statement” as a
+ * model, write a program that reads in an integer and then displays the number that has
+ * the same digits in the reverse order, as illustrated by this sample run:
+ */
+void question_06(){
+    long reversed_num = 0;
+
+    cout << "Enter a number you'd like to reverse : ";
+    long number = getInteger();
+
+    while (number > 0){
+        int new_num = number % 10;
+        reversed_num = reversed_num * 10 + new_num;
+        number /= 10;
+    }
+
+    cout << "The reversed number is " << reversed_num << '.';
+}
+
+/*
+ * Greek mathematicians took a special interest in numbers that are equal to the sum of
+ * their proper divisors (a proper divisor of N is any divisor less than N itself). They
+ * called such numbers perfect numbers. For example, 6 is a perfect number because
+ * it is the sum of 1, 2, and 3, which are the integers less than 6 that divide evenly into
+ * 6. Similarly, 28 is a perfect number because it is the sum of 1, 2, 4, 7, and 14.
+ *
+ * Write a predicate function IsPerfect that takes an integer n and returns true if n
+ * is perfect, and false otherwise. Test your implementation by writing a main
+ * program that uses the IsPerfect function to check for perfect numbers in the range
+ * 1 to 9999 by testing each number in turn. When a perfect number is found, your
+ * program should display it on the screen. The first two lines of output should be 6
+ * and 28. Your program should find two other perfect numbers in the range as well.
+ */
+bool isPerfect(int n);
+
+void question_07(){
+    const int BOTTOM_RANGE = 1;
+    const int TOP_RANGE = 9999;
+
+    for (int i = BOTTOM_RANGE; i <= TOP_RANGE; i++){
+        if (isPerfect(i)) cout << i << endl;
+    }
+}
+
+/*
+ * This function checks to see if parameter n is a perfect number
+ *
+ * @param[in] n number to chec
+ * @returns True if number is perfect
+ */
+bool isPerfect(int n){
+    int sum_of_factors = 0;
+
+    for(int i = 1; i < n; i++){
+        if (!(n % i)){
+            sum_of_factors += i;
+        }
+    }
+
+    return sum_of_factors == n;
+}
+/*
+ * Every positive integer greater than 1 can be expressed as a product of prime
+ * numbers. This factorization is unique and is called the prime factorization. For
+ * example, the number 60 can be decomposed into the factors 2 x 2 x 3 x 5, each of
+ * which is prime. Note that the same prime can appear more than once in the
+ * factorization.
+ * Write a program to display the prime factorization of a number n, as illustrated by
+ * the following sample run:
+ */
+bool isPrime(int n);
+
+void question_08(){
+   cout << "Enter a number to get the prime factorization : ";
+   int num = getInteger();
+   int remaining = num;
+
+   while (remaining > 1){
+       for (int i = remaining; i > 1; i--){
+           if (isPrime(i) && !(remaining % i)) {
+               remaining /= i;
+               cout << i;
+               if (remaining != 1) cout << " * ";
+               break;
+           }
+       }
+   }
+}
+
+/*
+ * This function checks if a number is prime number
+ *
+ * @param n the number to check
+ * @returns true if prime else false
+ */
+bool isPrime(int n){
+    if (n == 0 || n == 1) return false;
+
+    for (int i = 2; i <= n / 2; i++){
+        if (!(n % i)) return false;
+    }
+    return true;
+}
+
+/*
+ * When a floating-point number is converted to an integer in C++, the value is
+ * truncated by throwing away any fraction. Thus, when 4.99999 is converted to an
+ * integer, the result is 4. In many cases, it would be useful to have the option of
+ * rounding a floating-point value to the nearest integer. For a positive floating-point
+ * number x , the rounding operation can be achieved by adding 0.5 to x and then
+ * truncating the result to an integer. If the decimal fraction of x is less than .5, the
+ * truncated value will be the integer less than x ; if the fraction is .5 or more, the
+ * truncated value will be the next larger integer. Because truncation always moves
+ * toward zero, negative numbers must be rounded by subtracting 0.5 and truncating,
+ * instead of adding 0.5.
+ *
+ * Write a function Round(x) that rounds a floating-point number x to the nearest
+ * integer. Show that your function works by writing a suitable main program to test it.
+ */
+int round(float dec_num);
+
+void question_09(){
+    cout << "Enter a floating number to round : ";
+    float a_dec_num = getReal();
+
+    cout << "The rounded number is " << round(a_dec_num);
+}
+
+/*
+ * This function rounds using only the first decimal place
+ *
+ * @param dec_num the number to round
+ * @returns the rounded number
+ */
+int round(float dec_num){
+    int decimal = int(dec_num * 10) % 10;
+
+    if((dec_num > 0 && decimal >= 5) || (dec_num < 0 && decimal < 5)){
+        return int(dec_num + 0.5);
+    }
+    return int(dec_num);
+}
 
 int main() {
-    question_05();
+    question_09();
 
     return 0;
 }
