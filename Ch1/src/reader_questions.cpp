@@ -259,8 +259,53 @@ int round(float dec_num){
     return int(dec_num);
 }
 
+/*
+ * the German mathematician Leibniz (1646–1716) discovered the rather remarkable
+ * fact that the mathematical constant π can be computed using the following
+ * mathematical relationship:
+
+ * The formula to the right of the equal sign represents an infinite series; each fraction
+ * represents a term in that series. If you start with 1, subtract one-third, add one-fifth,
+ * and so on, for each of the odd integers, you get a number that gets closer and closer
+ * to the value of π/4 as you go along.
+ * Write a program that calculates an approximation of π consisting of the first
+ * 10,000 terms in Leibniz’s series.
+ */
+void question_10(){
+    int counter = 1;
+    double pi = 1;
+    int calculate_to = 10000;
+
+    for (int i = 3; i <= calculate_to; i+=2){
+        if (counter % 2){
+            pi -= 1.0 / i;
+            counter++;
+            continue;
+        }
+        pi += 1.0 / i;
+        counter++;
+    }
+
+    cout << "The number is " << pi * 4;
+}
+
+void question_10_alt(){
+    double pi = 1;
+    const int FACTORS = 10000;
+
+    for (int i = 1; i <= FACTORS; i++){
+        if (i % 2){
+            pi -= 1.0 / ((i * 2) + 1);
+            continue;
+        }
+        pi += 1.0 / ((i * 2) + 1);
+    }
+
+    cout << "The number is " << pi * 4;
+}
+
 int main() {
-    question_09();
+    question_10_alt();
 
     return 0;
 }
