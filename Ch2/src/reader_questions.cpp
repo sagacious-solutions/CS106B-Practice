@@ -1,4 +1,4 @@
-//#include "console.h"
+#include "console.h"
 #include "random.h"
 #include "simpio.h"
 #include <cmath>
@@ -494,9 +494,141 @@ void RemoveZeroElements(int scores[], int *nScores)
 }
 
 /// ------------------------------------------------------------------------ Question 09 ---------------------------
+/// The initial state of a checkers game is shown in the following diagram:
+/// The dark squares in the bottom three rows are occupied by red checkers; the dark
+/// squares in the top three rows contain black checkers. The two center rows are
+/// unoccupied.
+/// If you want to store the state of a checkerboard in a computer program, you need a
+/// two-dimensional array indexed by rows and columns. The elements of the array
+/// could be of various different types, but a reasonable approach is to use characters.
+/// For example, you could use the letter r to represent a red checker and the letter b to
+/// represent a black checker. Empty squares could be represented as spaces or hyphens
+/// depending on whether the color of the square was light or dark.
+/// Implement a function InitCheckerboard that initializes a checkerboard array so
+/// that it corresponds to the starting position of a checkers game. Implement a second
+/// function DisplayCheckerboard that displays the current state of a checkerboard on
+/// the screen, as follows:
+
+void initCheckerBoard(char board[8][8]);
+void outputCheckerBoard(char board[8][8]);
+void question_09()
+{
+    const int SIZE = 8;
+    char checkerBoard[SIZE][SIZE];
+    initCheckerBoard(checkerBoard);
+    outputCheckerBoard(checkerBoard);
+}
+
+void outputCheckerBoard(char board[8][8])
+{
+    const int SIZE = 8;
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            cout << board[i][j];
+        }
+        cout << endl;
+    }
+}
+
+void clearCharArr(char board[8][8])
+{
+    const int SIZE = 8;
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            board[i][j] = ' ';
+        }
+    }
+}
+
+void initCheckerBoard(char board[8][8])
+{
+    const int SIZE = 8;
+    clearCharArr(board);
+    int currentPiece = 'b';
+
+    for (int i = 0; i < SIZE; i++) {
+        if (i == 3) {
+            currentPiece = '-';
+        }
+        if (i == 5) {
+            currentPiece = 'r';
+        }
+        for (int j = 0; j < SIZE; j++) {
+            if (((j + 1) + i) % 2 == 0) {
+                board[i][j] = currentPiece;
+            }
+        }
+    }
+}
+
+/// ------------------------------------------------------------------------ Question 10 ---------------------------
+/// design a function prototype that would allow a single function to find and return
+/// simultaneously both the lowest and highest values in an array of type double .
+/// Implement and test your function as shown in the following sample run:
+
+void getArrayFromUser(double arrOfValues[100], int *valueCount);
+void getMaxMin(double arrOfValues[100], int nValues, double *min, double *max);
+
+void question_10()
+{
+    double arrOfValues[100];
+    int *nValues = new int;
+    *nValues = 0;
+    double *max = new double;
+    *max = 0;
+    double *min = new double;
+    *min = 0;
+
+    getArrayFromUser(arrOfValues, nValues);
+    getMaxMin(arrOfValues, *nValues, min, max);
+
+    cout << "The range of values is " << *min << '-' << *max << endl;
+}
+
+/*
+ * This function takes in an array of values and gives you the maximum and minimum values found
+ *
+ * @param arrOfValues[in] array to find max and min from
+ * @param nValues[in] number of elements in the arr
+ * @param min[out] lowest number found
+ * @param max[out] highest number found
+ */
+void getMaxMin(double arrOfValues[100], int nValues, double *min, double *max)
+{
+    *min = arrOfValues[0];
+    for (int i = 0; i < nValues; i++) {
+        if (arrOfValues[i] > *max) {
+            *max = arrOfValues[i];
+            continue;
+        }
+        if (arrOfValues[i] < *min) {
+            *min = arrOfValues[i];
+        }
+    }
+}
+
+void getArrayFromUser(double arrOfValues[100], int *valueCount)
+{
+    double userInput;
+    int index = 0;
+
+    cout << "Input as many numbers as you want, and enter -1 when your done to stop." << endl;
+
+    do {
+        userInput = getReal();
+        if (userInput != -1) {
+            arrOfValues[index] = userInput;
+            index++;
+        }
+    } while (userInput != -1);
+
+    *valueCount = index;
+}
 
 int main()
 {
-    question_08();
+    question_10();
     return 0;
 }
