@@ -2,7 +2,9 @@
 #include "random.h"
 #include "simpio.h"
 #include <cmath>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <vector>
 using namespace std;
 
@@ -652,7 +654,7 @@ vector<int> indexArray(int n)
     }
     return indexArr;
 }
-/// ------------------------------------------------------------------------ Question 12 ---------------------------
+/// ------------------------------------------------------------------------ Question 12 - 13 ---------------------------
 /// esign a new type called payrollT that is capable of holding the data for a list of
 /// employees, each of which is represented using the employeeT type introduced in the
 /// section on “Dynamic records” at the end of the chapter. The type payrollT should
@@ -664,8 +666,93 @@ vector<int> indexArray(int n)
 /// GetPayroll
 /// After the input values have been entered, the GetPayroll function should return a
 /// value of type payrollT that matches the structure shown in the diagram
+
+struct employeeRecordT
+{
+    string name;
+    string title;
+    string ssnum;
+    double salary;
+    int withholding;
+};
+
+struct payrollT
+{
+    vector<employeeRecordT> employees = *new vector<employeeRecordT>;
+    int nEmployees = 0;
+};
+
+void outputAllEmployeeInformation(payrollT payroll);
+void outputPayroll(payrollT payroll);
+
+void question_12()
+{
+    employeeRecordT scrooge;
+    scrooge.name = "Ebenezer Scrooge";
+    scrooge.title = "Partner";
+    scrooge.ssnum = "271-82-8183";
+    scrooge.salary = 250.00;
+    scrooge.withholding = 1;
+
+    employeeRecordT bob;
+    bob.name = "Bob Cratchit";
+    bob.title = "Clerk";
+    bob.ssnum = "314-15-9265";
+    bob.salary = 15.00;
+    bob.withholding = 7;
+
+    payrollT payroll;
+    payroll.employees.push_back(scrooge);
+    payroll.employees.push_back(bob);
+
+    outputAllEmployeeInformation(payroll);
+    cout << endl << endl;
+    outputPayroll(payroll);
+}
+
+string employeeRecordString(const employeeRecordT &r, int indent = 2)
+{
+    ostringstream oss;
+    string indentStr = "";
+
+    for (int i = 0; i < indent; i++) {
+        indentStr += ' ';
+    }
+
+    oss << indentStr << "Name: " << r.name << endl
+        << indentStr << "Title: " << r.title << endl
+        << indentStr << "SSNum: " << r.ssnum << endl
+        << indentStr << "Salary: " << fixed << setprecision(2) << r.salary << endl
+        << indentStr << "Withholding: " << r.withholding << endl;
+
+    return oss.str();
+}
+
+void outputAllEmployeeInformation(payrollT payroll)
+{
+    for (int i = 0; i < payroll.employees.size(); i++) {
+        cout << "Employee #" << i + 1 << ':' << endl;
+        cout << employeeRecordString(payroll.employees[i]);
+    }
+}
+
+void outputPayroll(payrollT payroll)
+{
+    const float TAX_RATE = 0.25;
+    cout << "Name" << setw(30) << "Gross" << setw(10) << "Tax" << setw(10) << "Net" << endl;
+    cout << setfill('-') << setw(56) << ' ' << endl;
+    cout << setfill(' ');
+
+    for (int i = 0; i < payroll.employees.size(); i++) {
+        double tax = (payroll.employees[i].salary - payroll.employees[i].withholding) * TAX_RATE;
+        double net = payroll.employees[i].salary - tax;
+        cout << fixed << setprecision(2) << left << setw(25) << payroll.employees[i].name << right
+             << setw(10) << payroll.employees[i].salary << setw(10) << tax << setw(10) << net
+             << endl;
+    }
+}
 int main()
 {
-    question_11();
+    question_12();
     return 0;
 }
