@@ -235,8 +235,92 @@ bool isSorted(int arr[], int n)
     return true;
 }
 
+/// ------------------------------------------------------------------------ Question 04 ---------------------------
+/// In the third century B .C ., the Greek astronomer Eratosthenes developed an algorithm
+/// for finding all the prime numbers up to some upper limit N. To apply the algorithm,
+/// you start by writing down a list of the integers between 2 and N. For example, if N
+/// were 20, you would begin by writing down the following list:
+/// 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+/// Next you circle the first number in the list, indicating that you have found a prime.
+/// You then go through the rest of the list and cross off every multiple of the value you
+/// have just circled, since none of those multiples can be prime. Thus, after executing
+/// the first step of the algorithm, you will have circled the number 2 and crossed off
+/// every multiple of two, as follows:
+/// 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+/// From this point, you simply repeat the process by circling the first number in the
+/// list that is neither crossed off nor circled, and then crossing off its multiples. In this
+/// Data Types in C++ – 79 –
+/// example, you would circle 3 as a prime and cross off all multiples of 3 in the rest of
+/// the list, which would result in the following state:
+/// 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+/// Eventually, every number in the list will either be circled or crossed out, as shown in
+/// this diagram:
+/// 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+/// The circled numbers are the primes; the crossed-out numbers are composites. This
+/// algorithm for generating a list of primes is called the sieve of Eratosthenes.
+/// Write a program that uses the sieve of Eratosthenes to generate a list of the primes
+/// between 2 and 1000
+
+void generateArr(int array[], int start, int stop);
+void removeMultiples(int multiple, int array[], int start, int stop);
+void question_05()
+{
+    const int START = 2;
+    const int STOP = 1001;
+    int numberArr[STOP - START];
+
+    generateArr(numberArr, START, STOP);
+
+    for (int i = 0; i < STOP - START; i++) {
+        if (numberArr[i] > 0) {
+            removeMultiples(numberArr[i], numberArr, START, STOP);
+        }
+    }
+
+    for (int i = 0; i < STOP - START; i++) {
+        if (numberArr[i] > 0) {
+            cout << numberArr[i] << endl;
+        }
+    }
+}
+
+/*
+ * This function calculates the area of a cylinder
+ * @param multiple[in] remove all multiples of this number
+ * @param array[out] array to generate numbers in
+ * @param start[in] first number in the array
+ * @param start[in] last number in the array
+ */
+void removeMultiples(int multiple, int array[], int start, int stop)
+{
+    for (int i = 0; i < stop - start; i++) {
+        if (array[i] == -1) {
+            continue;
+        }
+        int remainderOfDivision = array[i] % multiple;
+
+        if (!remainderOfDivision && array[i] != multiple) {
+            array[i] = -1;
+        }
+    }
+}
+
+/*
+ * This function calculates the area of a cylinder
+ *
+ * @param array[out] array to generate numbers in
+ * @param start[in] first number in the array
+ * @param start[in] last number in the array
+ */
+void generateArr(int array[], int start, int stop)
+{
+    for (int i = 0; i < stop - start; i++) {
+        array[i] = i + start;
+    }
+}
+
 int main()
 {
-    question_04();
+    question_05();
     return 0;
 }
