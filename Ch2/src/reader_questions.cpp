@@ -1,4 +1,5 @@
 #include "console.h"
+#include "random.h"
 #include "simpio.h"
 #include <cmath>
 #include <iostream>
@@ -235,7 +236,7 @@ bool isSorted(int arr[], int n)
     return true;
 }
 
-/// ------------------------------------------------------------------------ Question 04 ---------------------------
+/// ------------------------------------------------------------------------ Question 05 ---------------------------
 /// In the third century B .C ., the Greek astronomer Eratosthenes developed an algorithm
 /// for finding all the prime numbers up to some upper limit N. To apply the algorithm,
 /// you start by writing down a list of the integers between 2 and N. For example, if N
@@ -319,8 +320,100 @@ void generateArr(int array[], int start, int stop)
     }
 }
 
+/// ------------------------------------------------------------------------ Question 04 ---------------------------
+/// A histogram is a graphical way of displaying data by dividing the data into separate
+/// ranges and then indicating how many data values fall into each range. For example,
+/// given the set of exam scores
+/// 100, 95, 47, 88, 86, 92, 75, 89, 81, 70, 55, 80
+/// a traditional histogram would have the following form:
+/// *
+/// *
+/// *
+/// * * *
+/// * * * * * *
+/// 0–9 10–19 20–29 30–39 40–49 50–59 60–69 70–79 80–89 90–99 100
+/// The asterisks in the histogram indicate one score in the 40s, one score in the 50s, five
+/// scores in the 80s, and so forth.
+/// When you generate histograms using a computer, however, it is usually much
+/// easier to display them sideways on the page, as in this sample run:
+/// HistogramSideways
+/// 0:
+/// 10:
+/// 20:
+/// 30:
+/// 40: *
+/// 50: *
+/// 60:
+/// 70: **
+/// 80: *****
+/// 90: **
+/// 100: *
+/// Write a program that reads in an array of integers and then displays a histogram of
+/// those numbers, divided into the ranges 0–9, 10–19, 20–29, and so forth, up to the
+/// range containing only the value 100. Your program should generate output that
+/// looks as much like the sample run as possible.
+
+void generateRandomArr(int array[], int length = 50, int min = 0, int max = 100);
+void createHistogramArray(int histArr[], int histLength, int numberArr[], int numLength);
+void outputHistogram(int array[], int length);
+
+void question_06()
+{
+    const int TOTAL_NUMBERS = 50;
+    const int HISTOGRAM_GROUPS = 11;
+    int numberArr[TOTAL_NUMBERS];
+    int histArr[HISTOGRAM_GROUPS];
+
+    generateRandomArr(numberArr, TOTAL_NUMBERS);
+
+    createHistogramArray(histArr, HISTOGRAM_GROUPS, numberArr, TOTAL_NUMBERS);
+    outputHistogram(histArr, HISTOGRAM_GROUPS);
+}
+
+void createHistogramArray(int histArr[], int histLength, int numberArr[], int numLength)
+{
+    // Init array
+    for (int i = 0; i < histLength; i++) {
+        histArr[i] = 0;
+    }
+    // Add up all the numbers in each range
+    for (int i = 0; i < numLength; i++) {
+        int value_range = numberArr[i] / 10;
+        histArr[value_range]++;
+    }
+}
+
+void outputHistogram(int array[], int length)
+{
+    for (int i = 0; i < length; i++) {
+        cout << i * 10 << ": ";
+        for (int j = 0; j < array[i]; j++) {
+            cout << '*';
+        }
+        cout << endl;
+    }
+}
+
+void generateRandomArr(int array[], int length, int min, int max)
+{
+    for (int i = 0; i < length; i++) {
+        int newRandomNumber = randomInteger(min, max);
+
+        // Check the array to see if the given number is in it. If it is
+        // create a new random number and start again from zero
+        for (int j = 0; j < length; j++) {
+            if (array[j] == newRandomNumber) {
+                newRandomNumber = randomInteger(min, max);
+                j = 0;
+            }
+        }
+
+        array[i] = newRandomNumber;
+    }
+}
+
 int main()
 {
-    question_05();
+    question_06();
     return 0;
 }
