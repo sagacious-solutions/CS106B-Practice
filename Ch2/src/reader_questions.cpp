@@ -751,8 +751,69 @@ void outputPayroll(payrollT payroll)
              << endl;
     }
 }
+
+/// ------------------------------------------------------------------------ Question 15 ---------------------------
+/// Write a function
+/// int *GetDynamicIntegerArray(int sentinel, int & n);
+/// that returns a dynamically allocated array of integers read in from the user. The
+/// sentinel argument indicates the value used to signal the end of the input. The
+/// second argument is an integer reference parameter, which is used to return the
+/// effective size of the array. Note that it is impossible to know in advance how many
+/// values the user will enter. As a result, the implementation must allocate new array
+/// space as neede
+
+int *getDynamicIntegerArray(int sentinal, int &n);
+
+void question_15()
+{
+    vector<int> intArray;
+    int *arrLength = new int;
+    *arrLength = 0;
+
+    int *dynamicArr = getDynamicIntegerArray(-1, *arrLength);
+
+    cout << "The array length is " << *arrLength << endl;
+
+    for (int i = 0; i < *arrLength; i++) {
+        cout << dynamicArr[i] << endl;
+    }
+}
+
+int *getDynamicIntegerArray(int sentinal, int &n)
+{
+    int *arr = new int[n];
+    int userInput;
+
+    cout << "Enter as many values as you like hitting enter after each one. When your done enter "
+         << sentinal << " to finish the program" << endl;
+
+    while (true) {
+        userInput = getInteger();
+
+        if (userInput == sentinal)
+            break;
+
+        // Increase total num count
+        n++;
+
+        // Create a new array with the length of the updated count
+        int *new_arr = new int[n];
+        // Copy from pointer to first element, to the element before one element after existing arr
+        copy(arr, &arr[n], new_arr);
+        // Clear the old arr from memory
+        delete[] arr;
+        // overwrite the arr pointer with the new longer arr
+        arr = new_arr;
+        // add the newest element onto the end of the arr
+        arr[n - 1] = userInput;
+    }
+
+    cout << endl;
+    return arr;
+}
+
 int main()
 {
-    question_12();
+    question_15();
     return 0;
 }
