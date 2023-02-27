@@ -1,4 +1,4 @@
-#include "console.h"
+//#include "console.h"
 #include "random.h"
 #include "simpio.h"
 #include <cmath>
@@ -320,7 +320,7 @@ void generateArr(int array[], int start, int stop)
     }
 }
 
-/// ------------------------------------------------------------------------ Question 04 ---------------------------
+/// ------------------------------------------------------------------------ Question 06 ---------------------------
 /// A histogram is a graphical way of displaying data by dividing the data into separate
 /// ranges and then indicating how many data values fall into each range. For example,
 /// given the set of exam scores
@@ -353,11 +353,17 @@ void generateArr(int array[], int start, int stop)
 /// range containing only the value 100. Your program should generate output that
 /// looks as much like the sample run as possible.
 
+/// ------------------------------------------------------------------------ Question 07 ---------------------------
+//Rewrite the histogram program from the preceding exercise so that it displays the
+//histogram in a more traditional vertical orientation, like this:
+//Histogram
+
 void generateRandomArr(int array[], int length = 50, int min = 0, int max = 100);
 void createHistogramArray(int histArr[], int histLength, int numberArr[], int numLength);
-void outputHistogram(int array[], int length);
+void outputHistogramHorizontal(int array[], int length);
+void outputHistogramVertical(int array[], int length);
 
-void question_06()
+void question_06_07()
 {
     const int TOTAL_NUMBERS = 50;
     const int HISTOGRAM_GROUPS = 11;
@@ -367,7 +373,9 @@ void question_06()
     generateRandomArr(numberArr, TOTAL_NUMBERS);
 
     createHistogramArray(histArr, HISTOGRAM_GROUPS, numberArr, TOTAL_NUMBERS);
-    outputHistogram(histArr, HISTOGRAM_GROUPS);
+    outputHistogramHorizontal(histArr, HISTOGRAM_GROUPS);
+    cout << endl << endl << endl;
+    outputHistogramVertical(histArr, HISTOGRAM_GROUPS);
 }
 
 void createHistogramArray(int histArr[], int histLength, int numberArr[], int numLength)
@@ -383,7 +391,7 @@ void createHistogramArray(int histArr[], int histLength, int numberArr[], int nu
     }
 }
 
-void outputHistogram(int array[], int length)
+void outputHistogramHorizontal(int array[], int length)
 {
     for (int i = 0; i < length; i++) {
         cout << i * 10 << ": ";
@@ -392,6 +400,27 @@ void outputHistogram(int array[], int length)
         }
         cout << endl;
     }
+}
+
+/// ------------------------------------------------------------------------ Question 07 ---------------------------
+void outputHistogramVertical(int array[], int length)
+{
+    for (int i = length; i >= 0; i--) {
+        for (int j = 0; j < length; j++) {
+            if (array[j] > i) {
+                cout << "  *";
+                continue;
+            }
+            cout << "   ";
+        }
+        cout << endl;
+    }
+    cout << "  ";
+
+    for (int i = 0; i < length; i++) {
+        cout << i * 10 << ' ';
+    }
+    cout << endl;
 }
 
 void generateRandomArr(int array[], int length, int min, int max)
@@ -414,6 +443,6 @@ void generateRandomArr(int array[], int length, int min, int max)
 
 int main()
 {
-    question_06();
+    question_06_07();
     return 0;
 }
