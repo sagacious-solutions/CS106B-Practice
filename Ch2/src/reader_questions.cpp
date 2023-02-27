@@ -3,6 +3,7 @@
 #include "simpio.h"
 #include <cmath>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 string trueOrFalse(bool isTrue)
@@ -627,8 +628,44 @@ void getArrayFromUser(double arrOfValues[100], int *valueCount)
     *valueCount = index;
 }
 
+/// ------------------------------------------------------------------------ Question 11 ---------------------------
+/// Write a function IndexArray(n) that returns a pointer to a dynamically allocated
+/// integer array with n elements, each of which is initialized to its own index.
+vector<int> indexArray(int n);
+
+void question_11()
+{
+    const int ARRAY_LENGTH = 10;
+    vector<int> indexArr = indexArray(ARRAY_LENGTH);
+
+    for (int i = 0; i < ARRAY_LENGTH; i++) {
+        cout << indexArr[i] << endl;
+    }
+}
+
+vector<int> indexArray(int n)
+{
+    vector<int> indexArr(n);
+
+    for (int i = 0; i < n; i++) {
+        indexArr[i] = i;
+    }
+    return indexArr;
+}
+/// ------------------------------------------------------------------------ Question 12 ---------------------------
+/// esign a new type called payrollT that is capable of holding the data for a list of
+/// employees, each of which is represented using the employeeT type introduced in the
+/// section on “Dynamic records” at the end of the chapter. The type payrollT should
+/// be a pointer type whose underlying value is a record containing the number of
+/// employees and a dynamic array of the actual employeeT values, as illustrated by the
+/// following data diagram:
+/// After writing the types that define this data structure, write a function GetPayroll
+/// that reads in a list of employees, as shown in the following sample run:
+/// GetPayroll
+/// After the input values have been entered, the GetPayroll function should return a
+/// value of type payrollT that matches the structure shown in the diagram
 int main()
 {
-    question_10();
+    question_11();
     return 0;
 }
