@@ -427,22 +427,76 @@ void generateRandomArr(int array[], int length, int min, int max)
 {
     for (int i = 0; i < length; i++) {
         int newRandomNumber = randomInteger(min, max);
-
-        // Check the array to see if the given number is in it. If it is
-        // create a new random number and start again from zero
-        for (int j = 0; j < length; j++) {
-            if (array[j] == newRandomNumber) {
-                newRandomNumber = randomInteger(min, max);
-                j = 0;
-            }
-        }
-
         array[i] = newRandomNumber;
     }
 }
 
+/// ------------------------------------------------------------------------ Question 08 ---------------------------
+/// Write a function RemoveZeroElements(array, n) that goes through an array of
+/// integers and eliminates any elements whose value is 0. Because this operation
+/// changes the effective size of the array, RemoveZeroElements should take the
+/// effective size as a reference parameter and adjust it accordingly. For example,
+/// suppose that scores contains an array of scores on an optional exam and that
+/// nScores indicates the effective size of the array, as shown:
+
+void generateRandomArrWithExtraZeros(int array[], int length, int min = 0, int max = 100);
+void RemoveZeroElements(int scores[], int *nScores);
+
+void question_08()
+{
+    int *totalScores = new int;
+    *totalScores = 50;
+    int scoreArray[*totalScores];
+
+    generateRandomArrWithExtraZeros(scoreArray, *totalScores);
+    RemoveZeroElements(scoreArray, totalScores);
+
+    cout << "The new element count is " << *totalScores << endl;
+
+    for (int i = 0; i < *totalScores; i++) {
+        cout << scoreArray[i] << endl;
+    }
+
+    cout << endl;
+}
+
+void generateRandomArrWithExtraZeros(int array[], int length, int min, int max)
+{
+    for (int i = 0; i < length; i++) {
+        if (randomChance(0.8)) {
+            array[i] = 0;
+            continue;
+        }
+        array[i] = randomInteger(min, max);
+    }
+}
+
+void RemoveZeroElements(int scores[], int *nScores)
+{
+    int elementCount = *nScores;
+
+    for (int i = 0; i < *nScores; i++) {
+        if (i >= elementCount) {
+            scores[i] = -1;
+            continue;
+        }
+        // If the element is a zero, loop over array shifting everything left,
+        // Then de-increment loop so it repeats the index with the shifted element
+        if (scores[i] == 0) {
+            elementCount--;
+            for (int j = i + 1; j < *nScores; j++) {
+                scores[j - 1] = scores[j];
+            }
+            i--;
+        }
+    }
+    *nScores = elementCount;
+}
+
+/// ------------------------------------------------------------------------ Question 09 ---------------------------
+
 int main()
 {
-    question_06_07();
+    question_08();
     return 0;
 }
