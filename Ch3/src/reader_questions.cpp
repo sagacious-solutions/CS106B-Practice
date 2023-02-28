@@ -7,6 +7,7 @@
 #include <sstream>
 #include <stringutils.h>
 #include <vector>
+
 using namespace std;
 
 const int UPPER_DIFFERENCE = 32;
@@ -365,9 +366,101 @@ bool isPalindrome(string str)
     return true;
 }
 
+/// ------------------------------------------------------------------------ Question 07 ---------------------------
+
+/// One of the simplest types of codes used to make it harder for someone to read a
+/// message is a letter-substitution cipher, in which each letter in the original message
+/// is replaced by some different letter in the coded version of that message. A
+/// particularly simple type of letter-substitution cipher is a cyclic cipher, in which each
+/// letter is replaced by its counterpart a fixed distance ahead in the alphabet.
+
+string encodeString(string str, int key);
+char shiftLetter(char l, int nShift);
+
+void question_07()
+{
+    int shiftKey = 4;
+    string toEncode = "ABC";
+    string encoded = encodeString(toEncode, shiftKey);
+
+    cout << "The string " << toEncode << " encoded to " << encoded << " with a key of " << shiftKey
+         << "." << endl;
+
+    shiftKey = 3;
+    toEncode = "XYZ";
+    encoded = encodeString(toEncode, shiftKey);
+
+    cout << "The string " << toEncode << " encoded to " << encoded << " with a key of " << shiftKey
+         << "." << endl;
+
+    shiftKey = -3;
+    toEncode = "ABC";
+    encoded = encodeString(toEncode, shiftKey);
+
+    cout << "The string " << toEncode << " encoded to " << encoded << " with a key of " << shiftKey
+         << "." << endl;
+
+    shiftKey = -23;
+    toEncode = "AbCdefGHi";
+    encoded = encodeString(toEncode, shiftKey);
+
+    cout << "The string " << toEncode << " encoded to " << encoded << " with a key of " << shiftKey
+         << "." << endl;
+
+    shiftKey = -100;
+    toEncode = "ABC";
+    encoded = encodeString(toEncode, shiftKey);
+
+    cout << "The string " << toEncode << " encoded to " << encoded << " with a key of " << shiftKey
+         << "." << endl;
+}
+
+/**
+ * @brief encodeString encodes a letter using letter shifting
+ * @param str string to encode
+ * @param key places to shift by
+ * @return the mewly shifted string
+ */
+string encodeString(string str, int key)
+{
+    string newString = "";
+
+    for (int i = 0; i < str.length(); i++) {
+        int newLet = shiftLetter(str[i], key);
+        newString += char(newLet);
+    }
+    return newString;
+}
+
+/**
+ * @brief shiftLetter Shifts a letter in the alphabit by nSHift places
+ * @param l letter to shift
+ * @param nShift places to shift
+ * @return the shifted letter
+ */
+char shiftLetter(char l, int nShift)
+{
+    bool isCap = isCapital(l);
+    const int ALPHA_LENGTH = 26;
+
+    // Wrap the key if it loops alphabit multiple times
+    nShift = nShift % ALPHA_LENGTH;
+
+    l += nShift;
+
+    if (isCap && l > 'Z')
+        return l % 'Z' + 'A' - 1;
+    if (isCap && l < 'A')
+        return l + ALPHA_LENGTH;
+    if (!isCap && l > 'z')
+        return l % 'z' + 'a' - 1;
+    if (!isCap && l < 'a')
+        return l + ALPHA_LENGTH;
+    return l;
+}
+
 int main()
 {
-    question_06();
-
+    question_07();
     return 0;
 }
