@@ -2,10 +2,12 @@
 #include "random.h"
 #include "simpio.h"
 #include <cmath>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <stringutils.h>
+#include <unistr.h>
 #include <vector>
 
 using namespace std;
@@ -515,8 +517,111 @@ string subString(string s, int pos, int len)
     return sString;
 }
 
+/// ------------------------------------------------------------------------ Question 09 ---------------------------
+/// Write a program wc.cpp that reads a file and reports how many lines, words, and
+/// characters appear in it. For the purposes of this program, a word consists of a
+/// consecutive sequence of any characters except whitespace characters. For example,
+/// if the file twinkle.txt contains the following verse from Alice in Wonderland,
+/// Twinkle, twinkle, little bat!
+/// How I wonder what you're at!
+/// Up above the world you fly,
+/// Like a teatray in the sky.
+/// your program should be able to generate the following sample run:
+/// LineWordCharCount
+/// File: twinkle.txt
+/// Lines: 4
+/// Words: 22
+/// Chars: 114
+
+string *getFileText(string filepath);
+void letterWordLineCount(string *fileLines, int *letterCount, int *wordCount, int *lineCount);
+
+void question_09()
+{
+    string filename = "question_09.txt";
+    string fileDirectory = "/home/admin/development/CS106B/Practice Coding/Ch3/res/";
+    string filepath = fileDirectory + filename;
+    string *fileLines;
+    fileLines = getFileText(filepath);
+    const int INDENT = 10;
+
+    int *lineCount = new int;
+    int *wordCount = new int;
+    int *charCount = new int;
+    *wordCount = 0;
+    *charCount = 0;
+
+    letterWordLineCount(fileLines, charCount, wordCount, lineCount);
+    cout << left << setw(INDENT) << "Lines:" << *lineCount << endl;
+    cout << left << setw(INDENT) << "Words:" << *wordCount << endl;
+    cout << left << setw(INDENT) << "Chars:" << *charCount << endl;
+}
+
+/**
+ * @brief letterWordLineCount
+ * @param fileLines[in] lines of text from the file
+ * @param letterCount[out] tally of chars in the file
+ * @param wordCount[out] tall of words in the file
+ * @param lineCount[out] tall of lines in the file
+ */
+void letterWordLineCount(string *fileLines, int *letterCount, int *wordCount, int *lineCount)
+{
+    *lineCount = sizeof(*fileLines) / sizeof(string *);
+
+    for (int i = 0; i < *lineCount; i++) {
+        for (int j = 0; j < fileLines[i].length(); j++) {
+            *letterCount = *letterCount + 1;
+
+            if (fileLines[i][j] == ' ') {
+                *wordCount = *wordCount + 1;
+            }
+        }
+        *letterCount = *letterCount + 1;
+        *wordCount = *wordCount + 1;
+    }
+}
+
+/**
+ * @brief getFileText Gets each line of text from a file and returns it as array of strings, with one line per index
+ * @param filepath filepath of the file to read
+ * @return the array of strings
+ */
+string *getFileText(string filepath)
+{
+    cout << "Reading file " << filepath << endl;
+    int fileLinesCount = 0;
+    ifstream infile(filepath);
+    string *fileLines = new string[fileLinesCount];
+
+    // Output error and return empty arr if file fails to open
+    if (!infile.is_open()) {
+        cerr << "Could not open the file " << filepath << endl;
+        return fileLines;
+    }
+
+    // While lines remaining in file, increase array size, create a new array of that size, copy the old array to new array
+    // then add the new line to the new array, repeat to end of file.
+    string line;
+    while (getline(infile, line)) {
+        fileLinesCount++;
+        string *newArr = new string[fileLinesCount];
+        copy(fileLines, &fileLines[fileLinesCount - 1], newArr);
+        delete[] fileLines;
+        fileLines = newArr;
+        fileLines[fileLinesCount - 1] = line;
+    }
+    infile.close();
+
+    return fileLines;
+}
+/// ------------------------------------------------------------------------ Question 10 ---------------------------
+/// /// ------------------------------------------------------------------------ Question 10 ---------------------------
+/// /// ------------------------------------------------------------------------ Question 10 ---------------------------
+/// /// ------------------------------------------------------------------------ Question 10 ---------------------------
+/// /// ------------------------------------------------------------------------ Question 10 ---------------------------
+/// /// ------------------------------------------------------------------------ Question 10 ---------------------------
 int main()
 {
-    question_08();
+    question_09();
     return 0;
 }

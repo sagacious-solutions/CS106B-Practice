@@ -128,6 +128,7 @@ DISTFILES = ""
 HEADERS *= ""
 HEADERS = ""
 SOURCES *= "" \
+    src/notes.cpp \
     src/reader_questions.cpp
 SOURCES = ""
 
