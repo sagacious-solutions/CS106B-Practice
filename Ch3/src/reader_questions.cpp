@@ -8,6 +8,8 @@
 #include <vector>
 using namespace std;
 
+const int UPPER_DIFFERENCE = 32;
+
 /// ------------------------------------------------------------------------ Question 01 ---------------------------
 /// Write a program that repeatedly generates a random real number between 0 and 1
 /// and then displays the average after a certain number of runs, as illustrated by the
@@ -251,7 +253,6 @@ void question_04()
  */
 bool equalIgnoreCase(string str1, string str2)
 {
-    const int UPPER_DIFFERENCE = 32;
     if (!(str1.length() == str2.length()))
         return false;
 
@@ -269,10 +270,58 @@ bool equalIgnoreCase(string str1, string str2)
     }
     return true;
 }
+/// ------------------------------------------------------------------------ Question 05 ---------------------------
+/// Implement a function Capitalize(str) that returns a string in which the initial
+/// character is capitalized (if it is a letter) and all other letters are converted so that they
+/// appear in lowercase form. Characters other than letters are not affected. For
+/// example, Capitalize("BOOLEAN") and Capitalize("boolean") should each
+/// return the string "Boolean"
+
+string capitalize(string str);
+bool isCapital(char c);
+
+void question_05()
+{
+    string one = "unEVNeCaps";
+    string two = "lowercase";
+
+    string oneAfter = capitalize(one);
+    string twoAfter = capitalize(two);
+
+    cout << one << " -> " << oneAfter << endl;
+    cout << two << " -> " << twoAfter << endl;
+}
+
+/**
+ * @brief capitalize capitalizes first char, makes everything else lower
+ * @param str string to update
+ * @return string after its been updated
+ */
+string capitalize(string str)
+{
+    if (!isCapital(str[0]))
+        str[0] -= UPPER_DIFFERENCE;
+
+    for (int i = 1; i < str.length(); i++) {
+        if (isCapital(str[i]))
+            str[i] += UPPER_DIFFERENCE;
+    }
+    return str;
+}
+
+/**
+ * @brief isCapital checks if a letter is a capital
+ * @param c chracter to check
+ * @return true if capital
+ */
+bool isCapital(char c)
+{
+    return (c >= 'A' && c <= 'Z');
+}
 
 int main()
 {
-    question_04();
+    question_05();
 
     return 0;
 }
