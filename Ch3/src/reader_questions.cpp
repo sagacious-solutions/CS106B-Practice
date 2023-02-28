@@ -217,9 +217,62 @@ bool yesPlay(int bank)
         cout << "Invalid input. You must enter either Yes,No,y,n." << endl;
     }
 }
+
+/// ------------------------------------------------------------------------ Question 04 ---------------------------
+/// Implement a function EqualIgnoringCase(str1, str2) that returns true if the
+/// two string parameters contain the same sequence of characters ignoring case
+/// distinctions. Implement this once using the convenience functions from strutils.h
+/// and again without
+
+bool equalIgnoreCase(string str1, string str2);
+
+void question_04()
+{
+    string userEntryA = "";
+    string userEntryB = "";
+
+    while (true) {
+        userEntryA = getLine("Enter string a : ");
+        userEntryB = getLine("Enter string b : ");
+        if (!userEntryA.length())
+            break;
+        if (equalIgnoreCase(userEntryA, userEntryB))
+            cout << "Those strings are equal!" << endl;
+        else
+            cout << "Those strings are not equal" << endl;
+    }
+}
+
+/**
+ * @brief equalIgnoreCase Checks to see if two strings are equal, ignoring case, doesn't use standard library
+ * @param str1 
+ * @param str2
+ * @return True if strings are equal
+ */
+bool equalIgnoreCase(string str1, string str2)
+{
+    const int UPPER_DIFFERENCE = 32;
+    if (!(str1.length() == str2.length()))
+        return false;
+
+    for (int i = 0; i < str1.length(); i++) {
+        char a = str1[i];
+        char b = str2[i];
+
+        if (a >= 'A' && a <= 'Z')
+            a += UPPER_DIFFERENCE;
+        if (b >= 'A' && b <= 'Z')
+            b += UPPER_DIFFERENCE;
+
+        if (a != b)
+            return false;
+    }
+    return true;
+}
+
 int main()
 {
-    question_03();
+    question_04();
 
     return 0;
 }
