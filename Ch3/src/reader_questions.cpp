@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <stringutils.h>
 #include <vector>
 using namespace std;
 
@@ -319,9 +320,54 @@ bool isCapital(char c)
     return (c >= 'A' && c <= 'Z');
 }
 
+/// ------------------------------------------------------------------------ Question 06 ---------------------------
+/// A palindrome is a word that reads identically backward and forward, such as level
+/// or noon. Write a predicate function IsPalindrome(str) that returns true if the
+/// string str is a palindrome. In addition, design and write a test program that calls
+/// IsPalindrome to demonstrate that it works.
+
+bool isPalindrome(string str);
+
+string isTrue(bool b)
+{
+    if (b)
+        return "True";
+    return "False";
+}
+
+void question_06()
+{
+    string aPalindrome = "LeVEl";
+    string notPalidrome = "notapalindrome";
+
+    cout << aPalindrome << " is a palindrome : " << isTrue(isPalindrome(aPalindrome)) << endl;
+    cout << notPalidrome << " is a palindrome : " << isTrue(isPalindrome(notPalidrome)) << endl;
+}
+
+/**
+ * @brief isPalindrome checks to see if the string is a palindrom
+ * @param str string ot check
+ * @return true if its a palindrome
+ */
+bool isPalindrome(string str)
+{
+    int strLen = str.length();
+
+    for (int i = 0; i < strLen; i++) {
+        str[i] = tolower(str[i]);
+    }
+
+    for (int i = 0; i < strLen; i++) {
+        if (str[i] != str[strLen - 1 - i])
+            return false;
+    }
+
+    return true;
+}
+
 int main()
 {
-    question_05();
+    question_06();
 
     return 0;
 }
