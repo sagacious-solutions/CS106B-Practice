@@ -75,9 +75,151 @@ void howManyFlips(int consecutiveHeads)
          << " consecutive heads." << endl;
 }
 
+/// ------------------------------------------------------------------------ Question 03 ---------------------------
+/// Create a slot machine program
+
+enum slotSymbolT { CHERRY, LEMON, ORANGE, PLUM, BELL, BAR };
+const int SYMBOL_COUNT = 6;
+
+slotSymbolT cherry = CHERRY;
+slotSymbolT lemon = LEMON;
+slotSymbolT orange = ORANGE;
+slotSymbolT plum = PLUM;
+slotSymbolT bell = BELL;
+slotSymbolT bar = BAR;
+
+struct gameOutcomeT
+{
+    slotSymbolT gameOutcome[3];
+    int symbolCount[SYMBOL_COUNT] = {0, 0, 0, 0, 0, 0};
+    int winnings = 0;
+};
+
+bool yesPlay(int bank);
+void getSlots(gameOutcomeT *outcome);
+int getWinnings(gameOutcomeT outcome);
+void outputOutcome(gameOutcomeT *outcome);
+
+void question_03()
+{
+    int bank = 50;
+
+    while (true) {
+        if (!yesPlay(bank))
+            break;
+
+        bank -= 1;
+
+        gameOutcomeT *outcome = new gameOutcomeT;
+
+        getSlots(outcome);
+        outcome->winnings = getWinnings(*outcome);
+        bank += outcome->winnings;
+        outputOutcome(outcome);
+    }
+}
+
+/// Wrote this with the enums only to discover they don't work in a switch statement
+/// Next time the better solution would be to just use const int values for each type
+void outputOutcome(gameOutcomeT *outcome)
+{
+    cout << right;
+    for (int i = 0; i < 3; i++) {
+        switch (outcome->gameOutcome[i]) {
+        case 0:
+            cout << "CHERRY" << setw(10);
+            break;
+        case 1:
+            cout << "LEMON" << setw(10);
+
+            break;
+        case 2:
+            cout << "ORANGE" << setw(10);
+
+            break;
+        case 3:
+            cout << "PLUM" << setw(10);
+
+            break;
+        case 4:
+            cout << "BELL" << setw(10);
+
+            break;
+        case 5:
+            cout << "BAR" << setw(10);
+            break;
+        }
+    }
+    cout << " -- ";
+    if (outcome->winnings) {
+        cout << "You win $" << outcome->winnings << endl;
+        return;
+    }
+    cout << "You lose" << endl;
+}
+
+int getWinnings(gameOutcomeT outcome)
+{
+    if (outcome.symbolCount[bar] == 3) {
+        return 250;
+    }
+    if (outcome.symbolCount[bell] == 3
+        || (outcome.symbolCount[bell] == 2 && outcome.symbolCount[bar] == 1)) {
+        return 20;
+    }
+    if (outcome.symbolCount[plum] == 3
+        || (outcome.symbolCount[plum] == 2 && outcome.symbolCount[bar] == 1)) {
+        return 14;
+    }
+    if (outcome.symbolCount[orange] == 3
+        || (outcome.symbolCount[orange] == 2 && outcome.symbolCount[bar] == 1)) {
+        return 10;
+    }
+
+    switch (outcome.symbolCount[cherry]) {
+    case 1:
+        return 2;
+    case 2:
+        return 5;
+    case 3:
+        return 7;
+    }
+    return 0;
+}
+
+/**
+ * @brief getSlots populates the outcome variable with the 3 slot symbols for the game
+ * @param outcome[out] value to store the games outcome in
+ */
+void getSlots(gameOutcomeT *outcome)
+{
+    for (int i = 0; i < 3; i++) {
+        int symbolNum = randomInteger(0, SYMBOL_COUNT - 1);
+        outcome->symbolCount[symbolNum]++;
+        outcome->gameOutcome[i] = slotSymbolT(symbolNum);
+    }
+}
+
+bool yesPlay(int bank)
+{
+    ostringstream oss;
+    oss << "You have $" << bank << ". Would you like to play? ";
+    while (true) {
+        string yesNo = getLine(oss.str());
+
+        switch (tolower(yesNo[0])) {
+        case 'y':
+            return true;
+        case 'n':
+            return false;
+        }
+
+        cout << "Invalid input. You must enter either Yes,No,y,n." << endl;
+    }
+}
 int main()
 {
-    question_02();
+    question_03();
 
     return 0;
 }
