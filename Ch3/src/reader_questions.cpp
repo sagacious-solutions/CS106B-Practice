@@ -459,8 +459,64 @@ char shiftLetter(char l, int nShift)
     return l;
 }
 
+/// ------------------------------------------------------------------------ Question 08 ---------------------------
+///
+// Without using the string method s u b s t r , implement your own function
+// SubString(s, pos, len) , which returns the substring of s , beginning at position
+// pos and including at most len characters. Make sure that your function correctly
+// applies the following rules:
+// a. If pos is negative, it is set to 0 so that it indicates the first character in the string.
+// b. If len is greater than s.length()– pos , it is set to strlen(s) – pos so that it
+// stops at last character.
+// c. If pos is greater than s.length() - 1 , SubString returns the empty string.
+
+string subString(string s, int pos, int len);
+
+void question_08()
+{
+    int index = 5;
+    int len = 5;
+    string one = "jaberwalky";
+    string subOne = subString(one, index, len);
+
+    cout << "The substring of " << one << " starting at index " << index << " and going for " << len
+         << " characters is " << subOne << "." << endl;
+
+    index = -10;
+    len = 5;
+    one = "jaberwalky";
+    subOne = subString(one, index, len);
+
+    cout << "The substring of " << one << " starting at index " << index << " and going for " << len
+         << " characters is " << subOne << "." << endl;
+}
+
+/**
+ * @brief subString returns a substring of s from pos to len
+ * @param s string to get substring from
+ * @param pos index to start at
+ * @param len amount of characters to get
+ * @return the substring of s
+ */
+string subString(string s, int pos, int len)
+{
+    string sString = "";
+
+    if (pos < 0)
+        pos = 0;
+
+    if (pos + len > s.length())
+        len = s.length() - pos;
+
+    for (int i = pos; i < pos + len; i++) {
+        sString += s[i];
+    }
+
+    return sString;
+}
+
 int main()
 {
-    question_07();
+    question_08();
     return 0;
 }
