@@ -125,9 +125,11 @@ PRECOMPILED_HEADER = $$files($$PWD/lib/StanfordCPPLib/private/precompiled.h)
 # out SOURCES, so that the Qt Creator .pro modification is ineffectual.
 DISTFILES *= ""
 DISTFILES = ""
-HEADERS *= ""
+HEADERS *= "" \
+    src/card.h
 HEADERS = ""
 SOURCES *= "" \
+    src/card.cpp \
     src/notes.cpp \
     src/reader_questions.cpp
 SOURCES = ""

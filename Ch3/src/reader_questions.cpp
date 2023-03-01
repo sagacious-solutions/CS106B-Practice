@@ -1,6 +1,7 @@
 #include "console.h"
 #include "random.h"
 #include "simpio.h"
+#include <card.h>
 #include <cmath>
 #include <fstream>
 #include <iomanip>
@@ -614,7 +615,56 @@ string *getFileText(string filepath)
 
     return fileLines;
 }
-/// ------------------------------------------------------------------------ Question 10 ---------------------------
+/// ------------------------------------------------------------------------ Question 12 - 13 ---------------------------
+
+cardT *generateDeck();
+void outputDeck(cardT *deck);
+void shuffleDeck(cardT *deck, int iter = 1);
+
+void question_12_13()
+{
+    cardT *deck = generateDeck();
+    outputDeck(deck);
+    cout << endl << endl << endl;
+    shuffleDeck(deck);
+    outputDeck(deck);
+}
+
+void outputDeck(cardT *deck)
+{
+    for (int i = 0; i < 52; i++) {
+        if (i % 13 == 0)
+            cout << endl;
+
+        cout << cardName(deck[i]) << "  ";
+    }
+}
+
+void shuffleDeck(cardT *deck, int iter)
+{
+    for (int iteration = 0; iteration < iter; iteration++) {
+        for (int i = 0; i < 52; i++) {
+            int whereTo = randomInteger(0, 51);
+            cardT temp = deck[whereTo];
+            deck[whereTo] = deck[i];
+            deck[i] = temp;
+        }
+    }
+}
+
+cardT *generateDeck()
+{
+    cardT *deck = new cardT[52];
+    int cardNum = 0;
+    for (suitT s = clubs; s <= spades; s = suitT(int(s) + 1)) {
+        for (rankT r = ace; r <= king; r = rankT(int(r) + 1)) {
+            deck[cardNum] = newCard(r, s);
+            cardNum++;
+        }
+    }
+
+    return deck;
+}
 /// /// ------------------------------------------------------------------------ Question 10 ---------------------------
 /// /// ------------------------------------------------------------------------ Question 10 ---------------------------
 /// /// ------------------------------------------------------------------------ Question 10 ---------------------------
@@ -622,6 +672,6 @@ string *getFileText(string filepath)
 /// /// ------------------------------------------------------------------------ Question 10 ---------------------------
 int main()
 {
-    question_09();
+    question_12_13();
     return 0;
 }
