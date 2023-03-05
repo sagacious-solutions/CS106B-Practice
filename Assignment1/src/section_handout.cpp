@@ -9,6 +9,7 @@
 #include <map.h>
 #include <random.h>
 #include <set.h>
+#include <simpio.h>
 #include <string>
 #include <strlib.h>
 #include <unistd.h>
@@ -247,6 +248,6 @@ letterMap countLetters(string filepath)
 
 int main()
 {
-    question_03();
+    question_04();
     return 0;
 }

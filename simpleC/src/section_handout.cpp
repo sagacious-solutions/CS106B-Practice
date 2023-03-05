@@ -5,6 +5,7 @@
 #include <ctime>
 #include <iostream>
 #include <random.h>
+#include <set.h>
 #include <simpio.h>
 
 using namespace std;
@@ -98,6 +99,90 @@ electionConfigT getConfigFromUser()
 
     return config;
 };
+
+/// ------------------------------------------------------------------------ Question 4 ---------------------------
+
+string getSoundexValues(string *str);
+string parseSoundexCode(string str);
+
+void question_04()
+{
+    string *surname = new string;
+    while (true) {
+        *surname = getLine("Enter a surname (return to quit): ");
+
+        if (!surname->length())
+            return;
+
+        string soundexVal = getSoundexValues(surname);
+        soundexVal = char(toupper(surname->at(0))) + parseSoundexCode(soundexVal);
+        cout << "The value is " << soundexVal << endl;
+    }
+}
+
+string parseSoundexCode(string str)
+{
+    string soundexStr = "";
+
+    for (char c : str) {
+        // Ignore zeros
+        if (c == '0')
+            continue;
+        if (!soundexStr.length()) {
+            soundexStr += c;
+            continue;
+        }
+        // Don't add consecutive duplicates
+        if (soundexStr[soundexStr.length() - 1] != c)
+            soundexStr += c;
+    }
+
+    while (soundexStr.length() < 3)
+        soundexStr += '0';
+
+    return soundexStr.substr(0, 3);
+}
+
+string getSoundexValues(string *str)
+{
+    string integerVal = "";
+    Set<char> zero = {'a', 'e', 'i', 'o', 'u', 'h', 'w', 'y'};
+    Set<char> one = {'b', 'f', 'p', 'v'};
+    Set<char> two = {'c', 'g', 'j', 'k', 'q', 's', 'x', 'z'};
+    Set<char> three = {'d', 't'};
+    Set<char> four = {'m', 'n'};
+
+    for (int i = 1; i < str->length(); i++) {
+        if (zero.contains(str->at(i))) {
+            integerVal += '0';
+            continue;
+        }
+        if (one.contains(str->at(i))) {
+            integerVal += '1';
+            continue;
+        }
+        if (two.contains(str->at(i))) {
+            integerVal += '2';
+            continue;
+        }
+        if (three.contains(str->at(i))) {
+            integerVal += '3';
+            continue;
+        }
+        if (four.contains(str->at(i))) {
+            integerVal += '4';
+            continue;
+        }
+        if (str->at(i) == 'l') {
+            integerVal += '5';
+            continue;
+        }
+        if (str->at(i) == 'r') {
+            integerVal += '6';
+        }
+    }
+    return integerVal;
+}
 
 int main()
 {
