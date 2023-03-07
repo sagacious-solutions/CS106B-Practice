@@ -47,6 +47,11 @@ bool readVector(ifstream &inFile, vector<double> &vec)
     return true;
 }
 
+/**
+ * @brief sortTextFile Reads in text file and adds it to the lines vector in sorted order
+ * @param inFile
+ * @param lines Vector to store the incoming text in
+ */
 void sortTextFile(ifstream &inFile, Vector<string> &lines)
 {
     if (!inFile) {
@@ -148,7 +153,16 @@ void question_1_2_3()
 //    }
 //    return true;
 //}
-
+/**
+ * @brief CheckLine Checks a line in any given direction to see if they are all the same mark
+ * @param board grid of game board
+ * @param mark Current player to be checking for
+ * @param row starting row
+ * @param col starting column
+ * @param dRow the offset to move in the row direction its checking
+ * @param dCol the offset to move in the col direction its checking
+ * @return 
+ */
 bool CheckLine(Grid<char> &board, char mark, int row, int col, int dRow, int dCol)
 {
     for (int i = 0; i < board.numRows(); i++) {
@@ -160,6 +174,12 @@ bool CheckLine(Grid<char> &board, char mark, int row, int col, int dRow, int dCo
     return true;
 }
 
+/**
+ * @brief CheckForWin Runs the check lines function for vertical, horizontal or diagnol wins
+ * @param board 
+ * @param mark current player
+ * @return True if win
+ */
 bool CheckForWin(Grid<char> &board, char mark)
 {
     for (int i = 0; i < board.numRows(); i++) {
@@ -173,6 +193,10 @@ bool CheckForWin(Grid<char> &board, char mark)
     return CheckLine(board, mark, board.numCols() - 1, 0, -1, 1);
 }
 
+/**
+ * @brief drawBoard Draws the gameboard
+ * @param board grid containing current state of gameboard
+ */
 void drawBoard(Grid<char> &board)
 {
     for (int i = 0; i < board.numRows(); i++) {
@@ -194,7 +218,7 @@ void drawBoard(Grid<char> &board)
 
 void question_04()
 {
-    Grid<char> board(3, 3);
+    Grid<char> board(4, 4);
     board.fill(' ');
     bool winner = false;
     char player = 'X';
@@ -239,6 +263,10 @@ void question_04()
             player = 'X';
     }
 }
+
+// ************************************************ Question 05 ************************************************
+
+void question_05() {}
 
 int main()
 {
