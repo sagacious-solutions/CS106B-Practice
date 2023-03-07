@@ -176,12 +176,20 @@ bool CheckForWin(Grid<char> &board, char mark)
 void drawBoard(Grid<char> &board)
 {
     for (int i = 0; i < board.numRows(); i++) {
+        // 2 Underlines for each grid spot to cover vert lines too;
+        for (int j = 0; j < board.numRows() * 2 + 1; j++)
+            cout << '_';
+        cout << endl;
         cout << '|';
         for (int j = 0; j < board.numCols(); j++) {
             cout << board[i][j] << '|';
         }
         cout << endl;
     }
+    // Draw last underline
+    for (int j = 0; j < board.numRows() * 2 + 1; j++)
+        cout << '_';
+    cout << endl;
 }
 
 void question_04()
