@@ -2,6 +2,7 @@
 #include <ctime>
 #include <fstream>
 #include <grid.h>
+#include <set.h>
 #include <simpio.h>
 #include <vector.h>
 
@@ -340,9 +341,73 @@ bool IsMagicSquare(Grid<int> &square)
     return checkLineSum(square, square.numCols() - 1, 0, -1, 1, expectedSum);
 };
 
+// ************************************************ Question 06 ************************************************
+
+bool checkSodukoLine(Grid<int> &board, int row, int col, int dRow, int dCol);
+
+void question_06()
+{
+    Grid<int> sBoard1 = {{3, 9, 2, 4, 6, 5, 8, 1, 7}, // First line good, Solution Good
+                         {7, 4, 1, 8, 9, 3, 6, 2, 5},
+                         {6, 8, 5, 2, 7, 1, 4, 3, 9},
+                         {2, 5, 4, 1, 3, 8, 7, 9, 6},
+                         {8, 3, 9, 6, 2, 7, 1, 5, 4},
+                         {1, 7, 6, 9, 5, 4, 2, 8, 3},
+                         {9, 6, 7, 5, 8, 2, 3, 4, 1},
+                         {4, 2, 3, 7, 1, 9, 5, 6, 8},
+                         {5, 1, 8, 3, 4, 6, 9, 7, 2}};
+    Grid<int> sBoard2 = {{3, 9, 2, 4, 1, 5, 8, 1, 7}, // First line Bad, Solution bad
+                         {7, 4, 1, 8, 9, 3, 6, 2, 5},
+                         {6, 8, 5, 2, 7, 1, 4, 3, 9},
+                         {2, 5, 4, 1, 3, 8, 7, 9, 6},
+                         {8, 3, 9, 6, 2, 7, 1, 5, 4},
+                         {1, 7, 6, 9, 5, 4, 2, 8, 3},
+                         {9, 6, 7, 5, 8, 2, 3, 4, 1},
+                         {4, 2, 3, 7, 1, 9, 5, 6, 8},
+                         {5, 1, 8, 3, 4, 6, 9, 7, 2}};
+
+    bool firstLineOkay = checkSodukoLine(sBoard1, 0, 0, 0, 1);
+    cout << "The first line is okay - This should be True : " << boolToString(firstLineOkay)
+         << endl;
+    bool firstLinebad = checkSodukoLine(sBoard2, 0, 0, 0, 1);
+    cout << "The first line is bad - This should be False : " << boolToString(firstLinebad) << endl;
+}
+
+/**
+ * @brief checkSodukoLine Checks a row or col to make sure all the numbers are unique and in the range 1-9
+ * @param board Grid containing suduko board
+ * @param row Int row to start at
+ * @param col int Col to start at
+ * @param dRow int direction for row
+ * @param dCol int direction for col
+ * @return 
+ */
+bool checkSodukoLine(Grid<int> &board, int row, int col, int dRow, int dCol)
+{
+    const int BOARD_SIZE = 9;
+    Set<int> usedNums;
+
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        const int current_num = board[row][col];
+
+        if (usedNums.contains(current_num))
+            return false;
+
+        usedNums.add(current_num);
+        row += dRow;
+        col += dCol;
+    }
+    return true;
+}
+
+bool checkSodukoSolution()
+{
+    return true;
+}
+
 int main()
 {
     srand(time(0));
-    question_05();
+    question_06();
     return 0;
 }
