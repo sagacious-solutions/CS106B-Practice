@@ -269,11 +269,19 @@ bool IsMagicSquare(Grid<int> &square);
 
 void question_05()
 {
-    Grid<int> square1 = {{8, 1, 6}, {3, 5, 7}, {4, 9, 2}};
-    Grid<int> square2 = {{10, 10, 60}, {3, 5, 7}, {4, 9, 2}};
+    Grid<int> square1 = {{8, 1, 6}, {3, 5, 7}, {4, 9, 2}};    // IS MAGIC
+    Grid<int> square2 = {{10, 10, 60}, {3, 5, 7}, {4, 9, 2}}; // IS NOT MAGIC
+    Grid<int> square3 = {{16, 3, 2, 13}, {5, 10, 11, 8}, {9, 6, 7, 12}, {4, 15, 14, 1}}; // IS MAGIC
+    Grid<int> square4 = {{16, 3, 2, 13},
+                         {5, 10, 11, 8},
+                         {9, 6, 7, 12},
+                         {4, 15, 14, 22}}; // IS NOT MAGIC
 
     cout << "This Should be True : " << boolToString(IsMagicSquare(square1)) << endl;
     cout << "This should be False : " << boolToString(IsMagicSquare(square2)) << endl;
+
+    cout << "This should be True : " << boolToString(IsMagicSquare(square3)) << endl;
+    cout << "This should be False : " << boolToString(IsMagicSquare(square4)) << endl;
 }
 
 /**
