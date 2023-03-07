@@ -265,12 +265,76 @@ void question_04()
 }
 
 // ************************************************ Question 05 ************************************************
+bool IsMagicSquare(Grid<int> &square);
 
-void question_05() {}
+void question_05()
+{
+    Grid<int> square1 = {{8, 1, 6}, {3, 5, 7}, {4, 9, 2}};
+    Grid<int> square2 = {{10, 10, 60}, {3, 5, 7}, {4, 9, 2}};
+
+    cout << "This Should be True : " << boolToString(IsMagicSquare(square1)) << endl;
+    cout << "This should be False : " << boolToString(IsMagicSquare(square2)) << endl;
+}
+
+/**
+ * @brief checkLineSum checks to make sure the line sums up to expected sum 
+ * @param square Grid with magic square
+ * @param row starting row
+ * @param col starting column
+ * @param dRow the offset to move in the row direction its checking
+ * @param dCol the offset to move in the col direction its checking
+ * @param expectedSum what it should add up to
+ * @return true if matches expected sum
+ */
+bool checkLineSum(Grid<int> &square, int row, int col, int dRow, int dCol, int expectedSum)
+{
+    for (int i = 0; i < square.numCols(); i++) {
+        expectedSum -= square[row][col];
+        row += dRow;
+        col += dCol;
+    }
+
+    return expectedSum == 0;
+}
+
+/**
+ * @brief sumFirstLine Gets the sum of the first line
+ * @param square Grid holding magic square
+ * @return the sum of the first line
+ */
+int sumFirstLine(Grid<int> &square)
+{
+    int sum = 0;
+    for (int i = 0; i < square.numRows(); i++) {
+        sum += square[0][i];
+    }
+    return sum;
+}
+
+/**
+ * @brief IsMagicSquare Gets the sum of the first line, then checks to make sure all rows, columns, and diagnols have the same sum
+ * @param square Grid with magic square
+ * @return True if magic square
+ */
+bool IsMagicSquare(Grid<int> &square)
+{
+    int expectedSum = sumFirstLine(square);
+
+    for (int i = 0; i < square.numRows(); i++) {
+        if (!checkLineSum(square, i, 0, 0, 1, expectedSum))
+            return false;
+        if (!checkLineSum(square, 0, i, 1, 0, expectedSum))
+            return false;
+    }
+    if (!checkLineSum(square, 0, 0, 1, 1, expectedSum))
+        return false;
+
+    return checkLineSum(square, square.numCols() - 1, 0, -1, 1, expectedSum);
+};
 
 int main()
 {
     srand(time(0));
-    question_04();
+    question_05();
     return 0;
 }
