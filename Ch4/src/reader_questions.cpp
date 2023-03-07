@@ -344,6 +344,7 @@ bool IsMagicSquare(Grid<int> &square)
 // ************************************************ Question 06 ************************************************
 
 bool checkSodukoLine(Grid<int> &board, int row, int col, int dRow, int dCol);
+bool checkSodukoSolution(Grid<int> &board);
 
 void question_06()
 {
@@ -367,10 +368,15 @@ void question_06()
                          {5, 1, 8, 3, 4, 6, 9, 7, 2}};
 
     bool firstLineOkay = checkSodukoLine(sBoard1, 0, 0, 0, 1);
+    bool solutionGood = checkSodukoSolution(sBoard1);
+    bool solutionBad = checkSodukoSolution(sBoard2);
+    bool firstLinebad = checkSodukoLine(sBoard2, 0, 0, 0, 1);
+
     cout << "The first line is okay - This should be True : " << boolToString(firstLineOkay)
          << endl;
-    bool firstLinebad = checkSodukoLine(sBoard2, 0, 0, 0, 1);
+    cout << "The solution is good - This should be True : " << boolToString(solutionGood) << endl;
     cout << "The first line is bad - This should be False : " << boolToString(firstLinebad) << endl;
+    cout << "The solution is bad - This should be False : " << boolToString(solutionBad) << endl;
 }
 
 /**
@@ -384,6 +390,8 @@ void question_06()
  */
 bool checkSodukoLine(Grid<int> &board, int row, int col, int dRow, int dCol)
 {
+    //    cout << "Checking soduko line row: " << row << " col: " << col << " dRow: " << dRow
+    //         << " dCol: " << dCol << endl;
     const int BOARD_SIZE = 9;
     Set<int> usedNums;
 
@@ -400,8 +408,46 @@ bool checkSodukoLine(Grid<int> &board, int row, int col, int dRow, int dCol)
     return true;
 }
 
-bool checkSodukoSolution()
+/**
+ * @brief checkSodukoLine Checks all rows vertically or horizontally depending on whats passed
+ * @param board Grid containing suduko board
+ * @param dRow Move down rows while checking
+ * @param dCol Move through columns while checking
+ * @return 
+ */
+bool checkLines(Grid<int> &board, int dRow, int dCol)
 {
+    const int BOARD_SIZE = 9;
+    int row = 0;
+    int col = 0;
+
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        // The values for column and row direction are reversed, because we want it to move through a column in
+        // check soduko line when checkLines is running through rows and vice versa
+        if (!checkSodukoLine(board, row, col, dCol, dRow))
+            return false;
+
+        // Multiplying the direciton by the iterator gives the correct index, or doesn't change it if
+        // if its not suppose to be moving
+        row = i * dRow;
+        col = i * dCol;
+    }
+
+    return true;
+}
+
+bool checkSodukoSolution(Grid<int> &board)
+{
+    if (board.numCols() != 9 || board.numRows() != 9) {
+        cerr << "The board isn't 9x9! THE BOARD HAS TO BE 9x9!!!!!" << endl;
+        return false;
+    }
+    // Check rows
+    if (!checkLines(board, 1, 0))
+        return false;
+    // Check columns
+    if (!checkLines(board, 0, 1))
+        return false;
     return true;
 }
 
