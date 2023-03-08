@@ -4,6 +4,7 @@
 #include <grid.h>
 #include <set.h>
 #include <simpio.h>
+#include <stack.h>
 #include <vector.h>
 
 using namespace std;
@@ -495,9 +496,44 @@ bool checkSodukoSolution(Grid<int> &board)
     return true;
 }
 
+// ************************************************ Question 07 ************************************************
+/// Write a program that uses a stack to reverse a sequence of integers read in one per
+/// line from the console, as shown in the following sample run:
+/// ReverseList
+/// Enter a list of integers, ending with 0:
+/// > 10
+/// > 20
+/// > 30
+/// > 40
+/// > 0
+/// Those integers in reverse order are:
+/// 40
+/// 30
+/// 20
+/// 10
+
+void question_07()
+{
+    int input;
+    Stack<int> nums;
+
+    cout << "Enter a list of integers ending with 0." << endl;
+
+    while (true) {
+        input = getInteger(">");
+        if (input == 0)
+            break;
+        nums.push(input);
+    }
+
+    while (!nums.isEmpty()) {
+        cout << nums.pop() << endl;
+    }
+}
+
 int main()
 {
     srand(time(0));
-    question_06();
+    question_07();
     return 0;
 }
