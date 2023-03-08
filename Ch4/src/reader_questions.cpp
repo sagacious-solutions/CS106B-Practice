@@ -374,6 +374,7 @@ void question_06()
 
     bool solutionBad = checkSodukoSolution(sBoard2);
     bool firstLinebad = checkSodukoLine(sBoard2, 0, 0, 0, 1);
+    bool secondSquareBad = checkSodukoSquare(sBoard2, 0, 3);
 
     cout << "The first line is okay - This should be True : " << boolToString(firstLineOkay)
          << endl;
@@ -382,6 +383,8 @@ void question_06()
          << endl;
     cout << "The first line is bad - This should be False : " << boolToString(firstLinebad) << endl;
     cout << "The solution is bad - This should be False : " << boolToString(solutionBad) << endl;
+    cout << "The second square is bad - This should be False : " << boolToString(secondSquareBad)
+         << endl;
 }
 
 /**
@@ -399,7 +402,6 @@ bool checkSodukoSquare(Grid<int> &board, int row, int col)
     for (int i = row; i < row + SQUARE_SIZE; i++) {
         for (int j = col; j < col + SQUARE_SIZE; j++) {
             int num = board[i][j];
-            cout << "[" << i << ", " << j << "] : " << num << endl;
 
             if (usedNums.contains(num))
                 return false;
