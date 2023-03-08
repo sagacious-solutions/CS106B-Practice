@@ -345,6 +345,7 @@ bool IsMagicSquare(Grid<int> &square)
 
 bool checkSodukoLine(Grid<int> &board, int row, int col, int dRow, int dCol);
 bool checkSodukoSolution(Grid<int> &board);
+bool checkSodukoSquare(Grid<int> &board, int row, int col);
 
 void question_06()
 {
@@ -369,14 +370,43 @@ void question_06()
 
     bool firstLineOkay = checkSodukoLine(sBoard1, 0, 0, 0, 1);
     bool solutionGood = checkSodukoSolution(sBoard1);
+    bool firstSquareOkay = checkSodukoSquare(sBoard1, 0, 0);
+
     bool solutionBad = checkSodukoSolution(sBoard2);
     bool firstLinebad = checkSodukoLine(sBoard2, 0, 0, 0, 1);
 
     cout << "The first line is okay - This should be True : " << boolToString(firstLineOkay)
          << endl;
     cout << "The solution is good - This should be True : " << boolToString(solutionGood) << endl;
+    cout << "The first square is good - This should be True : " << boolToString(firstSquareOkay)
+         << endl;
     cout << "The first line is bad - This should be False : " << boolToString(firstLinebad) << endl;
     cout << "The solution is bad - This should be False : " << boolToString(solutionBad) << endl;
+}
+
+/**
+ * @brief checkSodukoSquare Checks an individual 3x3 to make sure theres no repeats
+ * @param board whole board
+ * @param row int to start at
+ * @param col int to start at
+ * @return true if part of a valid solution
+ */
+bool checkSodukoSquare(Grid<int> &board, int row, int col)
+{
+    const int SQUARE_SIZE = 3;
+    Set<int> usedNums;
+
+    for (int i = row; i < row + SQUARE_SIZE; i++) {
+        for (int j = col; j < col + SQUARE_SIZE; j++) {
+            int num = board[i][j];
+            cout << "[" << i << ", " << j << "] : " << num << endl;
+
+            if (usedNums.contains(num))
+                return false;
+            usedNums.add(num);
+        }
+    }
+    return true;
 }
 
 /**
