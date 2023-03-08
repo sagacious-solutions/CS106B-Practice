@@ -380,6 +380,7 @@ void question_06()
          << endl;
     cout << "The solution is good - This should be True : " << boolToString(solutionGood) << endl;
     cout << "The first square is good - This should be True : " << boolToString(firstSquareOkay)
+         << endl
          << endl;
     cout << "The first line is bad - This should be False : " << boolToString(firstLinebad) << endl;
     cout << "The solution is bad - This should be False : " << boolToString(solutionBad) << endl;
@@ -470,7 +471,10 @@ bool checkLines(Grid<int> &board, int dRow, int dCol)
 
 bool checkSodukoSolution(Grid<int> &board)
 {
-    if (board.numCols() != 9 || board.numRows() != 9) {
+    const int GRID_SIZE = 3;
+    const int BOARD_SIZE = 9;
+
+    if (board.numCols() != BOARD_SIZE || board.numRows() != BOARD_SIZE) {
         cerr << "The board isn't 9x9! THE BOARD HAS TO BE 9x9!!!!!" << endl;
         return false;
     }
@@ -480,6 +484,14 @@ bool checkSodukoSolution(Grid<int> &board)
     // Check columns
     if (!checkLines(board, 0, 1))
         return false;
+
+    for (int i = 0; i < BOARD_SIZE; i += GRID_SIZE) {
+        for (int j = 0; j < BOARD_SIZE; j += GRID_SIZE) {
+            if (!checkSodukoSquare(board, i, j))
+                return false;
+        }
+    }
+
     return true;
 }
 
