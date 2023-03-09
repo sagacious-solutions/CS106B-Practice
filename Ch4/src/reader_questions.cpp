@@ -547,12 +547,25 @@ void question_07()
 /// The reason that this exercise fits in this chapter is that one of the simplest strategies
 /// for implementing this program is to store the unmatched operators on a stack.
 
+/**
+ * @brief checkIsCloseBracket Checks to make sure currentChar is the closing bracket to next char
+ * The brackets are reversed due to using stack, it could be reversed first to improve code readability
+ * but this is more efficient
+ * @param currentChar Closing bracket
+ * @param nextChar opening bracket
+ * @return True if brackets match
+ */
 bool checkIsCloseBracket(char currentChar, char nextChar)
 {
     return ((nextChar == '(' && currentChar == ')') || (nextChar == '[' && currentChar == ']')
             || (nextChar == '{' && currentChar == '}'));
 }
 
+/**
+ * @brief checkBracketClosure Checks to make sure the closing and opening brackets in a string match
+ * @param str string to check
+ * @return True if they match
+ */
 bool checkBracketClosure(string &str)
 {
     Stack<char> foundB;
