@@ -531,9 +531,58 @@ void question_07()
     }
 }
 
+// ************************************************ Question 08 ************************************************
+/// Write a C++ program that checks whether the bracketing operators (parentheses,
+/// brackets, and curly braces) in a string are properly matched. As an example of
+/// proper matching, consider the string
+/// { s = 2 * (a[2] + 3); x = (1 + (2)); }
+/// If you go through the string carefully, you discover that all the bracketing operators
+/// are correctly nested, with each open parenthesis matched by a close parenthesis, each
+/// open bracket matched by a close bracket, and so on. On the other hand, the
+/// following strings are all unbalanced for the reasons indicated:
+/// (([]) The line is missing a close parenthesis.
+/// )( The close parenthesis comes before the open parenthesis.
+/// {(}) The bracketing operators are improperly nested.
+/// Using Abstract Data Types – 169 –
+/// The reason that this exercise fits in this chapter is that one of the simplest strategies
+/// for implementing this program is to store the unmatched operators on a stack.
+
+bool checkIsCloseBracket(char currentChar, char nextChar)
+{
+    return ((nextChar == '(' && currentChar == ')') || (nextChar == '[' && currentChar == ']')
+            || (nextChar == '{' && currentChar == '}'));
+}
+
+bool checkBracketClosure(string &str)
+{
+    Stack<char> foundB;
+    const Set<char> BRACKETS = {'(', ')', '{', '}', '[', ']'};
+
+    for (char c : str)
+        if (BRACKETS.contains(c))
+            if (!foundB.isEmpty() && checkIsCloseBracket(c, foundB.peek()))
+                foundB.pop();
+            else
+                foundB.push(c);
+
+    return foundB.isEmpty();
+}
+
+void question_08()
+{
+    string codeLine1 = "{ s = 2 * (a[2] + 3); x = (1 + (2)); }";
+    string codeLine2 = "{ s = 2 * ((a[2] + 3)(); x = (1 + (2)); }";
+    cout << codeLine1 << endl;
+    cout << "The above line has proper bracket closure (should be true): "
+         << boolToString(checkBracketClosure(codeLine1)) << endl;
+    cout << codeLine2 << endl;
+    cout << "The above line does not have proper bracket closure (this should be false): "
+         << boolToString(checkBracketClosure(codeLine2)) << endl;
+}
+
 int main()
 {
     srand(time(0));
-    question_07();
+    question_08();
     return 0;
 }
