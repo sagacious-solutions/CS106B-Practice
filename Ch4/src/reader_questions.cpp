@@ -85,7 +85,7 @@ void sortTextFile(ifstream &inFile, Vector<string> &lines)
         // Insert into middle
         for (int i = 0; i <= lines.size(); i++) {
             // Less than current, more than next, or same as current
-            if (stod(line) > stod(lines[i]) && stod(line) < stod(lines[i + 1])
+            if ((stod(line) > stod(lines[i]) && stod(line) < stod(lines[i + 1]))
                 || stod(line) == stod(lines[i])) {
                 lines.insert(i + 1, line);
                 break;
@@ -221,11 +221,10 @@ void drawBoard(Grid<char> &board)
 void question_04()
 {
     Grid<char> board(4, 4);
-    board.fill(' ');
-    bool winner = false;
+    board.fill(' ');    
     char player = 'X';
 
-    while (!winner) {
+    while (true) {
         bool validPlay = false;
         int playX, playY;
 
@@ -254,7 +253,7 @@ void question_04()
             cout << "X Wins!";
             break;
         }
-        if (winner = CheckForWin(board, 'O')) {
+        if (CheckForWin(board, 'O')) {
             cout << "Y Wins!";
             break;
         };
@@ -572,11 +571,12 @@ bool checkBracketClosure(string &str)
     const Set<char> BRACKETS = {'(', ')', '{', '}', '[', ']'};
 
     for (char c : str)
-        if (BRACKETS.contains(c))
+        if (BRACKETS.contains(c)) {
             if (!foundB.isEmpty() && checkIsCloseBracket(c, foundB.peek()))
                 foundB.pop();
             else
                 foundB.push(c);
+        }
 
     return foundB.isEmpty();
 }
