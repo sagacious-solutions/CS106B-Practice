@@ -33,7 +33,7 @@ int randomInt(int min, int max)
  * @param vec vector to add information too
  * @return True if it sucesfully reads
  */
-bool readVector(ifstream &inFile, vector<double> &vec)
+bool readVectorDoubles(ifstream &inFile, vector<double> &vec)
 {
     if (!inFile) {
         cerr << "Error: could not open file or end of file reached." << endl;
@@ -103,9 +103,9 @@ void question_1_2_3()
     Vector<string> lines;
     ifstream inFile(PATH_ROOTS);
 
-    cout << readVector(inFile, vec) << endl;
-    cout << readVector(inFile, vec) << endl;
-    cout << readVector(inFile, vec) << endl;
+    cout << readVectorDoubles(inFile, vec) << endl;
+    cout << readVectorDoubles(inFile, vec) << endl;
+    cout << readVectorDoubles(inFile, vec) << endl;
 
     // Return stream to begining of file with an offset of zero
     inFile.clear();
@@ -807,9 +807,100 @@ string morseToStr(string morse)
     return words;
 }
 
+bool isPalindrome(string str);
+
+string isTrue(bool b)
+{
+    if (b)
+        return "True";
+    return "False";
+}
+
+// ************************************************ Question 15 ************************************************
+
+/// 5. In Chapter 3, exercise 6, you were asked to write a function IsPalindrome that
+/// checks whether a word is a palindrome, which means that it reads identically
+/// forward and backward. Use that function together with the lexicon of English words
+/// to print out a list of all words in English that are palindromes.
+
+const string LEX = "englishLexicon.txt";
+const string PATH_LEX = "/home/admin/development/CS106B/Practice Coding/Ch4/sourceText/" + LEX;
+
+bool getVectorOfStrFromFile(ifstream &inFile, Vector<string> &vec);
+void getPalindromesFromVector(Vector<string> &lexVec, Vector<string> &palVec);
+bool isPalindrome(string str);
+
+void question_15()
+{
+    ifstream inFile(PATH_LEX);
+    Vector<string> lexVex;
+    Vector<string> palVec;
+
+    getVectorOfStrFromFile(inFile, lexVex);
+    getPalindromesFromVector(lexVex, palVec);
+    for (string word : palVec)
+        cout << word << endl;
+}
+
+/**
+ * @brief getPalindromesFromVector Iterates over lexVec and adds any palindromes found to palVec
+ * @param lexVec[in] List of words, Presumably and english lexicon
+ * @param palVec[out] All palindromes that were found
+ */
+void getPalindromesFromVector(Vector<string> &lexVec, Vector<string> &palVec)
+{
+    for (string word : lexVec) {
+        if (isPalindrome(word))
+            palVec.push_back(word);
+    }
+}
+
+/**
+ * @brief readVector Reads values into the vector until it encounters a blank line
+ * @param inFile filestream object to read from
+ * @param vec vector to add information too
+ * @return True if it sucesfully reads
+ */
+bool getVectorOfStrFromFile(ifstream &inFile, Vector<string> &vec)
+{
+    if (!inFile) {
+        cerr << "Error: could not open file or end of file reached." << endl;
+        return false;
+    }
+
+    string line;
+    while (getline(inFile, line)) {
+        if (!line.length())
+            return true;
+        vec.push_back(line);
+    }
+
+    return true;
+}
+/**
+ * @brief isPalindrome checks to see if the string is a palindrom
+ * @param str string ot check
+ * @return true if its a palindrome
+ */
+bool isPalindrome(string str)
+{
+    int strLen = str.length();
+
+    for (int i = 0; i < strLen; i++) {
+        str[i] = tolower(str[i]);
+    }
+
+    for (int i = 0; i < strLen; i++) {
+        if (str[i] != str[strLen - 1 - i])
+            return false;
+    }
+
+    return true;
+}
+
 int main()
 {
     srand(time(0));
-    question_14();
+    question_15();
     return 0;
 }
