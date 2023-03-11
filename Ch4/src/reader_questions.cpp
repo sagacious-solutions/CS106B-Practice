@@ -593,9 +593,123 @@ void question_08()
          << boolToString(checkBracketClosure(codeLine2)) << endl;
 }
 
+// ************************************************ Question 13 ************************************************
+/// write a program to simulate the following experiment, which was included in the
+/// 1957 Disney film, Our Friend the Atom, to illustrate the chain reactions involved in
+/// nuclear fission. The setting for the experiment is a large cubical box, the bottom of
+/// which is completely covered with an array of 625 mousetraps, arranged to form a
+/// square grid 25 mousetraps on a side. Each of the mousetraps is initially loaded with
+/// two ping-pong balls. At the beginning of the simulation, an additional ping-pong
+/// ball is released from the top of the box and falls on one of the mousetraps. That
+/// mousetrap springs and shoots its two ping-pong balls into the air. The ping-pong
+/// balls bounce around the sides of the box and eventually land on the floor, where they
+/// are likely to set off more mousetraps.
+/// In writing this simulation, you should make the following simplifying
+/// assumptions:
+/// Using Abstract Data Types – 170 –
+/// • Every ping-pong ball that falls always lands on a mousetrap, chosen randomly by
+/// selecting a random row and column in the grid. If the trap is loaded, its balls are
+/// released into the air. If the trap has already been sprung, having a ball fall on it
+/// has no effect.
+/// • Once a ball falls on a mousetrap—whether or not the trap is sprung—that ball
+/// stops and takes no further role in the simulation.
+/// • Balls launched from a mousetrap bounce around the room and land again after a
+/// random number of simulation cycles have gone by. That random interval is
+/// chosen independently for each ball and is always between one and four cycles.
+/// Your simulation should run until there are no balls in the air. At that point, your
+/// program should report how many time units have elapsed since the beginning, what
+/// percentage of the traps have been sprung, and the maximum number of balls in the
+/// air at any time in the simulation.
+
+const int MIN_T_CYCLE = 1;
+const int MAX_T_CYCLE = 4;
+const int GRID_SIZE = 25;
+const char MOUSE_TRAP = 'M';
+const char SPRUNG_TRAP = 'S';
+
+void launchBalls(Vector<int> &ballsInAir);
+void processTimeForBalls(Vector<int> &ballsInAir);
+int getBallsDropped(Vector<int> &ballsInAir);
+
+void question_13()
+{
+    int gridX;
+    int gridY;
+    int timeCycle = 0;
+    int droppedBalls = 0;
+    int remainingTraps = GRID_SIZE * GRID_SIZE;
+    Vector<int> ballsInAir = {0};
+    Grid<char> floor(GRID_SIZE, GRID_SIZE);
+    floor.fill(MOUSE_TRAP);
+    launchBalls(ballsInAir);
+
+    while (ballsInAir.size() > 0) {
+        processTimeForBalls(ballsInAir);
+        droppedBalls = getBallsDropped(ballsInAir);
+        for (int i = droppedBalls; i > 0; i--) {
+            gridX = randomInt(0, GRID_SIZE);
+            gridY = randomInt(0, GRID_SIZE);
+
+            if (floor[gridX][gridY] == MOUSE_TRAP) {
+                launchBalls(ballsInAir);
+                floor[gridX][gridY] = SPRUNG_TRAP;
+                remainingTraps--;
+            }
+        }
+        timeCycle++;
+    }
+
+    cout << "It took " << timeCycle << " time cycles to complete the simulation." << endl;
+    cout << "Of " << GRID_SIZE * GRID_SIZE << " traps, " << remainingTraps
+         << " traps remain unsprung." << endl;
+    cout << "Thats " << (remainingTraps / double(GRID_SIZE * GRID_SIZE)) * 100 << " precent."
+         << endl;
+}
+
+/**
+ * @brief processTimeForBalls Iterates over the ballsInAir vector and decreases everything by one time count
+ * @param ballsInAir vector of ints representing balls by remaining air time
+ */
+void processTimeForBalls(Vector<int> &ballsInAir)
+{
+    for (int i = 0; i < ballsInAir.size(); i++) {
+        if (ballsInAir[i] > 0)
+            ballsInAir[i]--;
+    }
+}
+
+/**
+ * @brief getBallsDropped Looks for balls in loop which air time has reached zero and removes them from the loop
+ * Then returns the total balls removed
+ * @param ballsInAir vector of ints representing balls by remaining air time
+ * @return Balls that have hit the floor
+ */
+int getBallsDropped(Vector<int> &ballsInAir)
+{
+    int dropped = 0;
+    for (int i = 0; i < ballsInAir.size(); i++) {
+        if (ballsInAir[i] == 0) {
+            ballsInAir.remove(i);
+            i--;
+            dropped++;
+        }
+    }
+    return dropped;
+}
+
+/**
+ * @brief launchBalls Adds 2 new balls in the air, with a random time cycle
+ * @param ballsInAir[in] Vector containing the air time for any current balls in the air to update
+ */
+void launchBalls(Vector<int> &ballsInAir)
+{
+    ballsInAir.push_back(randomInt(MIN_T_CYCLE, MAX_T_CYCLE));
+    ballsInAir.push_back(randomInt(MIN_T_CYCLE, MAX_T_CYCLE));
+}
+
 int main()
 {
     srand(time(0));
-    question_08();
+    question_13();
     return 0;
 }
