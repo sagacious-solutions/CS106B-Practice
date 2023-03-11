@@ -2,6 +2,7 @@
 #include <ctime>
 #include <fstream>
 #include <grid.h>
+#include <map.h>
 #include <set.h>
 #include <simpio.h>
 #include <stack.h>
@@ -707,9 +708,108 @@ void launchBalls(Vector<int> &ballsInAir)
     ballsInAir.push_back(randomInt(MIN_T_CYCLE, MAX_T_CYCLE));
 }
 
+// ************************************************ Question 14 ************************************************
+/// In May of 1844, Samuel F. B. Morse sent the message “What hath God wrought!” by
+/// telegraph from Washington to Baltimore, heralding the beginning of the age of
+/// electronic communication. To make it possible to communicate information using
+/// only the presence or absence of a single tone, Morse designed a coding system in
+/// which letters and other symbols are represented as coded sequences of short and long
+/// tones, traditionally called dots and dashes. In Morse code, the 26 letters of the
+/// alphabet are represented by the following codes:
+/// A • J • S • • •
+/// B • • • K • T
+/// C • • L • • • U • •
+/// D • • M V • • •
+/// E • N • W •
+/// F • • • O X • •
+/// G • P • • Y •
+/// H • • • • Q • Z • •
+/// I • • R • •
+/// If you want to convert from letters to Morse code, you can store the strings for each
+/// letter in an array with 26 elements; to convert from Morse code to letters, the easiest
+/// approach is to use a map.
+/// Write a program that reads in lines from the user and translates each line either to
+/// or from Morse code depending on the first character of the line:
+/// • If the line starts with a letter, you want to translate it to Morse code. Any
+/// characters other than the 26 letters should simply be ignored.
+/// • If the line starts with a period (dot) or a hyphen (dash), it should be read as a
+/// series of Morse code characters that you need to translate back to letters. Each
+/// sequence of dots and dashes is separated by spaces, but any other characters
+/// should be ignored. Because there is no encoding for the space between words, the
+/// characters of the translated message will be run together when your program
+/// translates in this direction.
+/// The program should end when the user enters a blank line. A sample run of this
+/// program (taken from the messages between the Titanic and the Carpathia in 1912)
+/// might look like this
+
+Map<char, string> morseMap = {
+    {'A', ".-"},   {'B', "-..."}, {'C', "-.-."}, {'D', "-.."},  {'E', "."},    {'F', "..-."},
+    {'G', "--."},  {'H', "...."}, {'I', ".."},   {'J', ".---"}, {'K', "-.-"},  {'L', ".-.."},
+    {'M', "--"},   {'N', "-."},   {'O', "---"},  {'P', ".--."}, {'Q', "--.-"}, {'R', ".-."},
+    {'S', "..."},  {'T', "-"},    {'U', "..-"},  {'V', "...-"}, {'W', ".--"},  {'X', "-..-"},
+    {'Y', "-.--"}, {'Z', "--.."},
+};
+
+string strToMorse(string str);
+string morseToStr(string morse);
+
+void question_14()
+{
+    cout << "Enter a message in text or morse code : " << endl;
+    string input;
+
+    while (true) {
+        input = toUpperCase(getLine(">"));
+
+        if (input.length() == 0)
+            break;
+
+        if (input[0] >= 'A' && input[0] <= 'Z') {
+            cout << strToMorse(input) << endl;
+        } else {
+            cout << morseToStr(input) << endl;
+        }
+    }
+}
+
+/**
+ * @brief strToMorse Takes a string and converts it to morse code
+ * @param str string to convert
+ * @return message in morse code
+ */
+string strToMorse(string str)
+{
+    string newStr;
+    for (char l : str) {
+        if (morseMap.containsKey(l))
+            newStr += morseMap[l] + ' ';
+    }
+    return newStr;
+}
+
+/**
+ * @brief morseToStr Takes in a string of morse code deliniated by spaces and returns the ASCII text with message
+ * and no spaces
+ * @param morse message in morse
+ * @return message in plain text
+ */
+string morseToStr(string morse)
+{
+    Vector<string> vec = stringSplit(morse, ' ');
+    string words;
+
+    for (string str : vec) {
+        for (char key : morseMap)
+            if (morseMap[key] == str) {
+                words += key;
+            }
+    }
+    return words;
+}
+
 int main()
 {
     srand(time(0));
-    question_13();
+    question_14();
     return 0;
 }
