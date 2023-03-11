@@ -66,7 +66,7 @@ int cannonBall(int height)
     }
 }
 
-// ************************************************ Question 01 ************************************************
+// ************************************************ Question 02 ************************************************
 ///Unlike many programming languages, C++ does not include a predefined operator
 ///that raises a number to a power. As a partial remedy for this deficiency, write a
 ///recursive implementation of a function
@@ -96,9 +96,55 @@ int raisePower(int n, int k)
     }
 }
 
+// ************************************************ Question 02 ************************************************
+///The greatest common divisor (g.c.d.) of two nonnegative integers is the largest
+///integer that divides evenly into both. In the third century B . C ., the Greek
+///mathematician Euclid discovered that the greatest common divisor of x and y can
+///always be computed as follows:
+///• If x is evenly divisible by y, then y is the greatest common divisor.
+///• Otherwise, the greatest common divisor of x and y is always equal to the greatest
+///common divisor of y and the remainder of x divided by y.
+///Use Euclid’s insight to write a recursive function GCD(x, y) that computes the
+///greatest common divisor of x and y.
+
+int GCD(int x, int y);
+void gcdWrap(int x, int y);
+
+void question_03()
+{
+    gcdWrap(10, 5);
+    gcdWrap(100, 26);
+    gcdWrap(234234, 2345);
+}
+
+/**
+ * @brief gcdWrap Wraps GCD to output the values being calculated and answer
+ * @param x
+ * @param y
+ */
+void gcdWrap(int x, int y)
+{
+    cout << "GCD of " << x << ", " << y << " is " << GCD(x, y) << endl;
+}
+
+/**
+ * @brief GCD Gets the greatest common devisor os x and y
+ * @param x
+ * @param y
+ * @return The calculated greatest devisor
+ */
+int GCD(int x, int y)
+{
+    if (x % y == 0) {
+        return y;
+    } else {
+        return GCD(y, x % y);
+    }
+}
+
 int main()
 {
     srand(time(0));
-    question_02();
+    question_03();
     return 0;
 }
