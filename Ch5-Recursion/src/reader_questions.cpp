@@ -329,12 +329,23 @@ void question_06()
     digitSumOutputWrapper(99999, 45);
 }
 
+/**
+ * @brief digitSumOutputWrapper Output wrapper, stop gap before switching to test suite
+ * @param n Number being summed
+ * @param expected Expected output
+ */
 void digitSumOutputWrapper(int n, int expected)
 {
     cout << "My digitSum of " << n << " should be " << expected << " : " << digitSum(n) << endl;
     cout << "GPT digitSum of " << n << " should be " << expected << " : " << DigitSumGPT(n) << endl;
 }
 
+/**
+ * @brief digitSum my implementation being worried the base case of less than 10 would be factored farther
+ * @param n Number to sum
+ * @param sum current sum tracked across function calls
+ * @return sum of digits
+ */
 int digitSum(int n, int sum)
 {
     if (n == 0) {
@@ -344,6 +355,11 @@ int digitSum(int n, int sum)
     }
 }
 
+/**
+ * @brief DigitSumGPT ChatGPTs implementation to check against mine
+ * @param n Number to sum
+ * @return sum of digits
+ */
 int DigitSumGPT(int n)
 {
     // Base case: If n is less than 10, return n as it is the only digit.
@@ -358,9 +374,51 @@ int DigitSumGPT(int n)
     return last_digit + DigitSumGPT(remaining_digits);
 }
 
+// ************************************************ Question 07 ************************************************
+///The digital root of an integer n is defined as the result of summing the digits
+///repeatedly until only a single digit remains. For example, the digital root of 1729
+///can be calculated using the following steps:
+///Step 1: 1 + 7 + 2 + 9 → 19
+///Step 2: 1 + 9 → 10
+///Step 3: 1 + 0 → 1
+
+int digitalRoot(int n);
+void digitRootOutputWrapper(int n, int expected);
+
+void question_07()
+{
+    digitRootOutputWrapper(1729, 1);
+    digitRootOutputWrapper(999, 9);
+}
+
+/**
+ * @brief digitRootOutputWrapper Output wrapper for easy display
+ * @param n
+ * @param expected
+ */
+void digitRootOutputWrapper(int n, int expected)
+{
+    cout << "digitalRoot of " << n << " should be " << expected << " : " << digitalRoot(n) << endl;
+}
+
+/**
+ * @brief digitalRoot Gets the digital root as described above
+ * @param n Number to get digital root for
+ * @return The digital root
+ */
+int digitalRoot(int n)
+{
+    n = digitSum(n);
+    // Base case: If n is less than 10, return n as it is the only digit.
+    if (n < 10) {
+        return n;
+    }
+    return digitalRoot(n);
+}
+
 int main()
 {
     srand(time(0));
-    question_06();
+    question_07();
     return 0;
 }
