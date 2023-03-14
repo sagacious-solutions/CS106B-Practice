@@ -460,9 +460,51 @@ string reReverse(string str)
     }
 }
 
+// ************************************************ Question 10 ************************************************
+
+///The strutils.h library contains a function IntegerToString ,. You might have
+///wondered how the computer actually goes about the process of converting an integer
+///into its string representation. As it turns out, the easiest way to implement this
+///function is to use the recursive decomposition of an integer outlined in exercise 6.
+///Rewrite the IntegerToString implementation so that it operates recursively without
+///using use any of the iterative constructs such as while and for
+
+void reIntToStringOutputWrapper(int n);
+string reIntToString(int n);
+
+void question_10()
+{
+    reIntToStringOutputWrapper(12345);
+    reIntToStringOutputWrapper(100000);
+    reIntToStringOutputWrapper(99999);
+}
+
+void reIntToStringOutputWrapper(int n)
+{
+    cout << "The number " << n << " is " << reIntToString(n) << " as a string. " << endl;
+}
+
+/**
+ * @brief reIntToString Recursive convert integer to string
+ * @param n Number to convert to string
+ * @return String representation of n
+ */
+string reIntToString(int n)
+{
+    // Modulo gets last digit, convert to char offset by ascii 0
+    const string numChar(1, char('0' + (n % 10)));
+
+    // Base case : If less than 10, return n offset by the ASCII code for zero
+    if (n < 10) {
+        return numChar;
+    }
+    // Recursive Case : Get the next recursive case with the current number added as a string onto the back of its return
+    return reIntToString(n / 10) + numChar;
+}
+
 int main()
 {
     srand(time(0));
-    question_09();
+    question_10();
     return 0;
 }
