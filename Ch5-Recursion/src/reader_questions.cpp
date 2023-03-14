@@ -416,9 +416,53 @@ int digitalRoot(int n)
     return digitalRoot(n);
 }
 
+// ************************************************ Question 09 ************************************************
+
+///Write a recursive function that takes a string as argument and returns the reverse of
+///that string. The prototype for this function should be
+///string Reverse(string str);
+///and the statement
+///cout << Reverse("program") << endl;
+///should display
+///ReverseString
+///margorp
+///Your solution should be entirely recursive and should not use any iterative constructs
+///such as while or for
+
+void reReverseOutputWrapper(string str);
+string reReverse(string str);
+
+void question_09()
+{
+    reReverseOutputWrapper("Hello World");
+    reReverseOutputWrapper("Mississippi");
+}
+
+void reReverseOutputWrapper(string str)
+{
+    cout << "The string " << str << " reversed is " << reReverse(str) << endl;
+}
+
+/**
+ * @brief reReverse Recursive string reverse
+ * @param str String to reverse
+ * @return the reversed string
+ */
+string reReverse(string str)
+{
+    // Base case, Return the only remaining character
+    if (str.length() == 1) {
+        return str;
+
+        // Recursive Case : Return the last index of str, then add run the function again with a substring missing the last char
+    } else {
+        return str[str.length() - 1] + reReverse(str.substr(0, str.length() - 1));
+    }
+}
+
 int main()
 {
     srand(time(0));
-    question_07();
+    question_09();
     return 0;
 }
