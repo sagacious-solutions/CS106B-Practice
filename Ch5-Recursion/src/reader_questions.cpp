@@ -313,9 +313,54 @@ int AdditiveSequence(int n, int t0, int t1, int &runCount)
     return AdditiveSequence(n - 1, t1, t0 + t1, runCount);
 }
 
+// ************************************************ Question 06 ************************************************
+///Write a recursive function DigitSum(n) that takes a nonnegative integer and returns
+///the sum of its digits. For example, calling DigitSum(1729) should return
+///1 + 7 + 2 + 9, which is 19.
+int DigitSumGPT(int n);
+int digitSum(int n, int sum = 0);
+void digitSumOutputWrapper(int n, int expected);
+
+void question_06()
+{
+    digitSumOutputWrapper(2, 11);
+    digitSumOutputWrapper(222, 6);
+    digitSumOutputWrapper(12345, 15);
+    digitSumOutputWrapper(99999, 45);
+}
+
+void digitSumOutputWrapper(int n, int expected)
+{
+    cout << "My digitSum of " << n << " should be " << expected << " : " << digitSum(n) << endl;
+    cout << "GPT digitSum of " << n << " should be " << expected << " : " << DigitSumGPT(n) << endl;
+}
+
+int digitSum(int n, int sum)
+{
+    if (n == 0) {
+        return sum;
+    } else {
+        return digitSum(n / 10, (sum + (n % 10)));
+    }
+}
+
+int DigitSumGPT(int n)
+{
+    // Base case: If n is less than 10, return n as it is the only digit.
+    if (n < 10) {
+        return n;
+    }
+
+    // Recursive case: Calculate the sum of the last digit and the sum of the remaining digits.
+    int last_digit = n % 10;
+    int remaining_digits = n / 10;
+
+    return last_digit + DigitSumGPT(remaining_digits);
+}
+
 int main()
 {
     srand(time(0));
-    question_05();
+    question_06();
     return 0;
 }
