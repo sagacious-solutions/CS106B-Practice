@@ -96,7 +96,7 @@ int raisePower(int n, int k)
     }
 }
 
-// ************************************************ Question 02 ************************************************
+// ************************************************ Question 03 ************************************************
 ///The greatest common divisor (g.c.d.) of two nonnegative integers is the largest
 ///integer that divides evenly into both. In the third century B . C ., the Greek
 ///mathematician Euclid discovered that the greatest common divisor of x and y can
@@ -142,9 +142,84 @@ int GCD(int x, int y)
     }
 }
 
+// ************************************************ Question 04 ************************************************
+//Write an iterative implementation of the function Fib(n)
+
+/*
+* Constants
+* ---------
+* MIN_INDEX -- Index of first term to generate
+* MAX_INDEX -- Index of last term to generate
+*/
+
+const int MIN_INDEX = 0;
+const int MAX_INDEX = 12;
+
+/* Private function prototypes */
+
+int FibIt(int n);
+int FibRe(int n);
+
+void question_04()
+{
+    cout << "This question lists the Fibonacci sequence." << endl;
+    for (int i = MIN_INDEX; i <= MAX_INDEX; i++) {
+        cout << "Fib(" << i << ")";
+        if (i < 10)
+            cout << " ";
+        cout << " = " << FibRe(i) << endl;
+    }
+
+    cout << endl << endl;
+
+    for (int i = MIN_INDEX; i <= MAX_INDEX; i++) {
+        cout << "Fib(" << i << ")";
+        if (i < 10)
+            cout << " ";
+        cout << " = " << FibIt(i) << endl;
+    }
+}
+
+/**
+ * @brief FibIt Fibonacci sequence calculated iteratively
+ * @param n Factor to calculate to
+ * @return The calculated number
+ */
+int FibIt(int n)
+{
+    int fib = 1;
+    int prevFib = 1;
+    int temp;
+
+    if (n <= 1) {
+        return n;
+    }
+
+    for (int i = 2; i < n; i++) {
+        temp = fib;
+        fib += prevFib;
+        prevFib = temp;
+    }
+    return fib;
+}
+
+/**
+ * @brief FibIt Fibonacci sequence calculated recursively
+ * @param n Factor to calculate to
+ * @return The calculated number
+ */
+int FibRe(int n)
+{
+    if (n < 2) {
+        return n;
+    } else {
+        return FibRe(n - 1) + FibRe(n - 2);
+    }
+}
+
 int main()
 {
     srand(time(0));
-    question_03();
+    question_04();
     return 0;
 }
